@@ -1,0 +1,180 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.medication_reminder_app"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+9        android:targetSdkVersion="34" />
+10
+11    <!-- Quyền camera và lưu ảnh -->
+12    <uses-permission android:name="android.permission.CAMERA" />
+12-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:6:5-65
+12-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:6:22-62
+13    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+13-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:7:5-76
+13-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:7:22-73
+14    <!-- Android 12 trở xuống -->
+15    <uses-permission
+15-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:9:5-10:38
+16        android:name="android.permission.READ_EXTERNAL_STORAGE"
+16-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:9:22-77
+17        android:maxSdkVersion="32" />
+17-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:10:9-35
+18    <uses-permission
+18-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:11:5-12:38
+19        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+19-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:11:22-78
+20        android:maxSdkVersion="28" />
+20-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:12:9-35
+21
+22    <uses-feature
+22-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:14:5-85
+23        android:name="android.hardware.camera"
+23-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:14:19-57
+24        android:required="false" />
+24-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:14:58-82
+25
+26    <permission
+26-->[androidx.core:core:1.13.1] C:\Users\ADMIN\.gradle\caches\transforms-4\a4ae857b63f935be6b53462e8ec6e02a\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
+27        android:name="com.example.medication_reminder_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+27-->[androidx.core:core:1.13.1] C:\Users\ADMIN\.gradle\caches\transforms-4\a4ae857b63f935be6b53462e8ec6e02a\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
+28        android:protectionLevel="signature" />
+28-->[androidx.core:core:1.13.1] C:\Users\ADMIN\.gradle\caches\transforms-4\a4ae857b63f935be6b53462e8ec6e02a\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
+29
+30    <uses-permission android:name="com.example.medication_reminder_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+30-->[androidx.core:core:1.13.1] C:\Users\ADMIN\.gradle\caches\transforms-4\a4ae857b63f935be6b53462e8ec6e02a\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
+30-->[androidx.core:core:1.13.1] C:\Users\ADMIN\.gradle\caches\transforms-4\a4ae857b63f935be6b53462e8ec6e02a\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
+31
+32    <application
+32-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:16:5-35:19
+33        android:allowBackup="true"
+33-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:17:9-35
+34        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+34-->[androidx.core:core:1.13.1] C:\Users\ADMIN\.gradle\caches\transforms-4\a4ae857b63f935be6b53462e8ec6e02a\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
+35        android:dataExtractionRules="@xml/data_extraction_rules"
+35-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:18:9-65
+36        android:debuggable="true"
+37        android:extractNativeLibs="false"
+38        android:fullBackupContent="@xml/backup_rules"
+38-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:19:9-54
+39        android:icon="@mipmap/ic_launcher"
+39-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:20:9-43
+40        android:label="@string/app_name"
+40-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:21:9-41
+41        android:roundIcon="@mipmap/ic_launcher_round"
+41-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:22:9-54
+42        android:supportsRtl="true"
+42-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:23:9-35
+43        android:testOnly="true"
+44        android:theme="@style/Theme.Medicationreminderapp" >
+44-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:24:9-59
+45        <activity
+45-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:26:9-33:20
+46            android:name="com.example.medication_reminder_app.MainActivity"
+46-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:27:13-41
+47            android:exported="true" >
+47-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:28:13-36
+48            <intent-filter>
+48-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:29:13-32:29
+49                <action android:name="android.intent.action.MAIN" />
+49-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:30:17-69
+49-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:30:25-66
+50
+51                <category android:name="android.intent.category.LAUNCHER" />
+51-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:31:17-77
+51-->D:\download\TV3_HoangViet_FIXED\tv3_HoangViet\app\src\main\AndroidManifest.xml:31:27-74
+52            </intent-filter>
+53        </activity>
+54
+55        <provider
+55-->[androidx.emoji2:emoji2:1.3.0] C:\Users\ADMIN\.gradle\caches\transforms-4\1a9076d73da53c29fafe7305c0203a1b\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+56            android:name="androidx.startup.InitializationProvider"
+56-->[androidx.emoji2:emoji2:1.3.0] C:\Users\ADMIN\.gradle\caches\transforms-4\1a9076d73da53c29fafe7305c0203a1b\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:25:13-67
+57            android:authorities="com.example.medication_reminder_app.androidx-startup"
+57-->[androidx.emoji2:emoji2:1.3.0] C:\Users\ADMIN\.gradle\caches\transforms-4\1a9076d73da53c29fafe7305c0203a1b\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:26:13-68
+58            android:exported="false" >
+58-->[androidx.emoji2:emoji2:1.3.0] C:\Users\ADMIN\.gradle\caches\transforms-4\1a9076d73da53c29fafe7305c0203a1b\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:27:13-37
+59            <meta-data
+59-->[androidx.emoji2:emoji2:1.3.0] C:\Users\ADMIN\.gradle\caches\transforms-4\1a9076d73da53c29fafe7305c0203a1b\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+60                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+60-->[androidx.emoji2:emoji2:1.3.0] C:\Users\ADMIN\.gradle\caches\transforms-4\1a9076d73da53c29fafe7305c0203a1b\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:30:17-75
+61                android:value="androidx.startup" />
+61-->[androidx.emoji2:emoji2:1.3.0] C:\Users\ADMIN\.gradle\caches\transforms-4\1a9076d73da53c29fafe7305c0203a1b\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:31:17-49
+62            <meta-data
+62-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\ADMIN\.gradle\caches\transforms-4\275b3c5027a47d293ea7d26c5db75f51\transformed\jetified-lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
+63                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+63-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\ADMIN\.gradle\caches\transforms-4\275b3c5027a47d293ea7d26c5db75f51\transformed\jetified-lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
+64                android:value="androidx.startup" />
+64-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\ADMIN\.gradle\caches\transforms-4\275b3c5027a47d293ea7d26c5db75f51\transformed\jetified-lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+65            <meta-data
+65-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+66                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+66-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+67                android:value="androidx.startup" />
+67-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+68        </provider>
+69
+70        <uses-library
+70-->[androidx.window:window:1.0.0] C:\Users\ADMIN\.gradle\caches\transforms-4\4d19ac461550aa883e3bb4abe05f61ec\transformed\jetified-window-1.0.0\AndroidManifest.xml:25:9-27:40
+71            android:name="androidx.window.extensions"
+71-->[androidx.window:window:1.0.0] C:\Users\ADMIN\.gradle\caches\transforms-4\4d19ac461550aa883e3bb4abe05f61ec\transformed\jetified-window-1.0.0\AndroidManifest.xml:26:13-54
+72            android:required="false" />
+72-->[androidx.window:window:1.0.0] C:\Users\ADMIN\.gradle\caches\transforms-4\4d19ac461550aa883e3bb4abe05f61ec\transformed\jetified-window-1.0.0\AndroidManifest.xml:27:13-37
+73        <uses-library
+73-->[androidx.window:window:1.0.0] C:\Users\ADMIN\.gradle\caches\transforms-4\4d19ac461550aa883e3bb4abe05f61ec\transformed\jetified-window-1.0.0\AndroidManifest.xml:28:9-30:40
+74            android:name="androidx.window.sidecar"
+74-->[androidx.window:window:1.0.0] C:\Users\ADMIN\.gradle\caches\transforms-4\4d19ac461550aa883e3bb4abe05f61ec\transformed\jetified-window-1.0.0\AndroidManifest.xml:29:13-51
+75            android:required="false" />
+75-->[androidx.window:window:1.0.0] C:\Users\ADMIN\.gradle\caches\transforms-4\4d19ac461550aa883e3bb4abe05f61ec\transformed\jetified-window-1.0.0\AndroidManifest.xml:30:13-37
+76
+77        <service
+77-->[androidx.room:room-runtime:2.6.1] C:\Users\ADMIN\.gradle\caches\transforms-4\f345b2883fdf4a7bcc4c0ac8c218950c\transformed\room-runtime-2.6.1\AndroidManifest.xml:24:9-28:63
+78            android:name="androidx.room.MultiInstanceInvalidationService"
+78-->[androidx.room:room-runtime:2.6.1] C:\Users\ADMIN\.gradle\caches\transforms-4\f345b2883fdf4a7bcc4c0ac8c218950c\transformed\room-runtime-2.6.1\AndroidManifest.xml:25:13-74
+79            android:directBootAware="true"
+79-->[androidx.room:room-runtime:2.6.1] C:\Users\ADMIN\.gradle\caches\transforms-4\f345b2883fdf4a7bcc4c0ac8c218950c\transformed\room-runtime-2.6.1\AndroidManifest.xml:26:13-43
+80            android:exported="false" />
+80-->[androidx.room:room-runtime:2.6.1] C:\Users\ADMIN\.gradle\caches\transforms-4\f345b2883fdf4a7bcc4c0ac8c218950c\transformed\room-runtime-2.6.1\AndroidManifest.xml:27:13-37
+81
+82        <receiver
+82-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+83            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+83-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+84            android:directBootAware="false"
+84-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+85            android:enabled="true"
+85-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+86            android:exported="true"
+86-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+87            android:permission="android.permission.DUMP" >
+87-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+88            <intent-filter>
+88-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+89                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+89-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+89-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+90            </intent-filter>
+91            <intent-filter>
+91-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+92                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+92-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+92-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+93            </intent-filter>
+94            <intent-filter>
+94-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+95                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+95-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+95-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+96            </intent-filter>
+97            <intent-filter>
+97-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+98                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+98-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+98-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ADMIN\.gradle\caches\transforms-4\50cdd47e587f9d6b42eb5a9b52324a06\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+99            </intent-filter>
+100        </receiver>
+101    </application>
+102
+103</manifest>

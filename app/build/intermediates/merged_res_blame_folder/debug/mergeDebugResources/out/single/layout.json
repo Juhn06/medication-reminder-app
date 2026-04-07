@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "C:\\Users\\ADMIN\\.gradle\\daemon\\8.6\\com.example.medication_reminder_app-mergeDebugResources-46:\\layout\\item_medicine.xml",
+        "source": "C:\\Users\\ADMIN\\.gradle\\daemon\\8.6\\com.example.medication_reminder_app-main-49:\\layout\\item_medicine.xml"
+    },
+    {
+        "merged": "com.example.medication_reminder_app-mergeDebugResources-46:/layout/fragment_add_edit_medicine.xml",
+        "source": "com.example.medication_reminder_app-main-49:/layout/fragment_add_edit_medicine.xml"
+    },
+    {
+        "merged": "C:\\Users\\ADMIN\\.gradle\\daemon\\8.6\\com.example.medication_reminder_app-mergeDebugResources-46:\\layout\\fragment_medicine_list.xml",
+        "source": "C:\\Users\\ADMIN\\.gradle\\daemon\\8.6\\com.example.medication_reminder_app-main-49:\\layout\\fragment_medicine_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\ADMIN\\.gradle\\daemon\\8.6\\com.example.medication_reminder_app-mergeDebugResources-46:\\layout\\activity_main.xml",
+        "source": "C:\\Users\\ADMIN\\.gradle\\daemon\\8.6\\com.example.medication_reminder_app-main-49:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\ADMIN\\.gradle\\daemon\\8.6\\com.example.medication_reminder_app-mergeDebugResources-46:\\layout\\fragment_medicine_detail.xml",
+        "source": "C:\\Users\\ADMIN\\.gradle\\daemon\\8.6\\com.example.medication_reminder_app-main-49:\\layout\\fragment_medicine_detail.xml"
+    },
+    {
+        "merged": "C:\\Users\\ADMIN\\.gradle\\daemon\\8.6\\com.example.medication_reminder_app-mergeDebugResources-46:\\layout\\fragment_add_edit_medicine.xml",
+        "source": "C:\\Users\\ADMIN\\.gradle\\daemon\\8.6\\com.example.medication_reminder_app-main-49:\\layout\\fragment_add_edit_medicine.xml"
+    },
+    {
+        "merged": "C:\\Users\\ADMIN\\.gradle\\daemon\\8.6\\com.example.medication_reminder_app-mergeDebugResources-46:\\layout\\item_schedule.xml",
+        "source": "C:\\Users\\ADMIN\\.gradle\\daemon\\8.6\\com.example.medication_reminder_app-main-49:\\layout\\item_schedule.xml"
+    }
+]

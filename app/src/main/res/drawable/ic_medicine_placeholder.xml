@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+
+    <!-- Viên thuốc hình oval -->
+    <path
+        android:fillColor="#90CAF9"
+        android:pathData="M32,10 C20,10 12,18 12,28 C12,40 20,54 32,54 C44,54 52,40 52,28 C52,18 44,10 32,10 Z" />
+    <!-- Đường chia đôi -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:fillColor="#00000000"
+        android:pathData="M12,28 L52,28" />
+    <!-- Nửa dưới màu khác -->
+    <path
+        android:fillColor="#42A5F5"
+        android:pathData="M12,28 C12,40 20,54 32,54 C44,54 52,40 52,28 Z" />
+    <!-- Chữ + -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M29,21 L35,21 L35,24 L38,24 L38,30 L35,30 L35,33 L29,33 L29,30 L26,30 L26,24 L29,24 Z" />
+
+</vector>
