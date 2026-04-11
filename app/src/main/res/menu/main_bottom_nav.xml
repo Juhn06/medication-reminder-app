@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/ic_home_24"
+        android:title="@string/home_bottom_home" />
+    <item
+        android:id="@+id/menu_add_edit"
+        android:icon="@drawable/ic_add_24"
+        android:title="@string/home_bottom_add" />
+    <item
+        android:id="@+id/menu_schedule"
+        android:icon="@drawable/ic_schedule_24"
+        android:title="@string/home_bottom_schedule" />
+    <item
+        android:id="@+id/menu_history"
+        android:icon="@drawable/ic_history_24"
+        android:title="@string/home_bottom_history" />
+    <item
+        android:id="@+id/menu_camera"
+        android:icon="@drawable/ic_camera_24"
+        android:title="@string/home_bottom_camera" />
+</menu>
+

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="lavender">#8692F7</color>
+    <color name="gray">#80808080</color>
+
+    <color name="medical_primary">#FF018786</color>
+    <color name="medical_primary_light">#FF03DAC5</color>
+    <color name="medical_bg">#FFF4FAFA</color>
+    <color name="medical_surface">#FFFFFFFF</color>
+    <color name="medical_surface_variant">#FFE6F3F3</color>
+    <color name="medical_text_primary">#FF1F2937</color>
+    <color name="medical_text_secondary">#FF6B7280</color>
+    <color name="medical_success">#FF10B981</color>
+    <color name="medical_warning">#FFF59E0B</color>
+</resources>

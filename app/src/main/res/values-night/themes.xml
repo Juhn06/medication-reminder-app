@@ -1,0 +1,11 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MyApplicationMedTech" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <item name="colorPrimary">@color/medical_primary_light</item>
+        <item name="colorSecondary">@color/medical_primary</item>
+        <item name="android:windowBackground">#FF0E1515</item>
+        <item name="android:statusBarColor">#FF0E1515</item>
+        <item name="android:navigationBarColor">#FF111A1A</item>
+    </style>
+</resources>

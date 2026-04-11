@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">My Application MedTech</string>
+
+    <string name="onboarding_skip">Bỏ qua</string>
+    <string name="onboarding_next">Tiếp theo</string>
+    <string name="onboarding_start">Bắt đầu</string>
+    <string name="onboarding_title_1">Quản lý danh sách thuốc</string>
+    <string name="onboarding_desc_1">Thêm một hoặc nhiều loại thuốc vào danh sách cần uống, dễ dàng theo dõi từng loại thuốc hằng ngày.</string>
+    <string name="onboarding_title_2">Nhắc uống thuốc đúng giờ</string>
+    <string name="onboarding_desc_2">Nhận thông báo nhắc đúng giờ uống thuốc để tránh quên liều, kể cả khi app đang đóng.</string>
+    <string name="onboarding_title_3">Theo dõi lịch uống</string>
+    <string name="onboarding_desc_3">Đánh dấu đã uống/chưa uống và xem lịch sử để bạn nắm được tiến độ sử dụng thuốc.</string>
+    <string name="onboarding_title_4">Mở rộng với camera</string>
+    <string name="onboarding_desc_4">Chụp thuốc để tìm thông tin nhanh và bổ sung vào danh sách điều trị cá nhân.</string>
+
+    <string name="home_title">Tổng quan hôm nay</string>
+    <string name="home_subtitle">Theo dõi thuốc và nhắc nhở sức khỏe của bạn</string>
+    <string name="home_schedule_title">Danh sách thuốc cần uống trong ngày</string>
+    <string name="home_schedule_empty">Hiện tại chưa có thuốc cần uống</string>
+    <string name="home_quick_actions">Chức năng nhanh</string>
+    <string name="home_bottom_home">Trang chủ</string>
+    <string name="home_bottom_add">Thêm/Sửa</string>
+    <string name="home_bottom_schedule">Lịch uống</string>
+    <string name="home_bottom_history">Lịch sử</string>
+    <string name="home_bottom_camera">Camera</string>
+
+    <string name="action_capture">Chụp thuốc</string>
+    <string name="action_add">Thêm thuốc</string>
+    <string name="action_list">Danh sách thuốc</string>
+    <string name="action_schedule">Lịch uống</string>
+    <string name="action_history">Lịch sử</string>
+
+    <string name="theme_menu_title">Chế độ giao diện</string>
+    <string name="theme_light">Sáng</string>
+    <string name="theme_dark">Tối</string>
+    <string name="theme_system">Theo hệ thống</string>
+
+    <string name="status_done">Đã uống</string>
+    <string name="status_pending">Sắp đến giờ</string>
+    <string name="status_missed">Quá giờ</string>
+
+    <string name="toast_stub">Màn hình này sẽ được bổ sung chi tiết ở bước tiếp theo.</string>
+    <string name="content_settings">Cài đặt giao diện</string>
+
+    <string name="splash_title">Nhắc uống thuốc</string>
+    <string name="splash_subtitle">Trợ lý quản lý thuốc cá nhân của bạn</string>
+</resources>
