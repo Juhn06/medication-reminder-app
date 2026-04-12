@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">medication-reminder-app</string>
+
+    <!-- Onboarding strings (TV5) -->
+    <string name="onboarding_title_1">Quản lý thuốc dễ dàng</string>
+    <string name="onboarding_desc_1">Thêm và quản lý tất cả các loại thuốc của bạn một cách dễ dàng</string>
+    <string name="onboarding_title_2">Nhắc nhở thông minh</string>
+    <string name="onboarding_desc_2">Nhận thông báo đúng giờ để không bao giờ quên uống thuốc</string>
+    <string name="onboarding_title_3">Đặt lịch linh hoạt</string>
+    <string name="onboarding_desc_3">Tùy chỉnh lịch uống thuốc theo nhu cầu của bạn</string>
+    <string name="onboarding_title_4">Chụp ảnh thuốc</string>
+    <string name="onboarding_desc_4">Chụp và lưu ảnh thuốc để dễ nhận biết</string>
 </resources>
