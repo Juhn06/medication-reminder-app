@@ -1,4 +1,7 @@
 package com.example.medication_reminder_app.ui.onboarding;
+
+
+import com.example.medication_reminder_app.R;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplicationmedtech.OnboardingPage;
+import com.example.medication_reminder_app.ui.onboarding.OnboardingPage;
 
 import java.util.List;
 

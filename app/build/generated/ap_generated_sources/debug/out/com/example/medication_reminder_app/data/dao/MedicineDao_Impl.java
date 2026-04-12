@@ -22,9 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
-import javax.annotation.processing.Generated;
 
-@Generated("androidx.room.RoomProcessor")
 @SuppressWarnings({"unchecked", "deprecation"})
 public final class MedicineDao_Impl implements MedicineDao {
   private final RoomDatabase __db;
@@ -37,13 +35,19 @@ public final class MedicineDao_Impl implements MedicineDao {
 
   private final SharedSQLiteStatement __preparedStmtOfUpdateImagePath;
 
+  private final SharedSQLiteStatement __preparedStmtOfSetActive;
+
+  private final SharedSQLiteStatement __preparedStmtOfDeleteById;
+
+  private final SharedSQLiteStatement __preparedStmtOfDeleteAll;
+
   public MedicineDao_Impl(@NonNull final RoomDatabase __db) {
     this.__db = __db;
     this.__insertionAdapterOfMedicine = new EntityInsertionAdapter<Medicine>(__db) {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR ABORT INTO `medicines` (`id`,`name`,`dosage`,`times_per_day`,`notes`,`image_path`,`is_active`) VALUES (nullif(?, 0),?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `medicines` (`id`,`name`,`dosage`,`times_per_day`,`notes`,`image_path`,`created_at`,`is_active`) VALUES (nullif(?, 0),?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -70,8 +74,9 @@ public final class MedicineDao_Impl implements MedicineDao {
         } else {
           statement.bindString(6, entity.imagePath);
         }
+        statement.bindLong(7, entity.createdAt);
         final int _tmp = entity.isActive ? 1 : 0;
-        statement.bindLong(7, _tmp);
+        statement.bindLong(8, _tmp);
       }
     };
     this.__deletionAdapterOfMedicine = new EntityDeletionOrUpdateAdapter<Medicine>(__db) {
@@ -90,7 +95,7 @@ public final class MedicineDao_Impl implements MedicineDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "UPDATE OR ABORT `medicines` SET `id` = ?,`name` = ?,`dosage` = ?,`times_per_day` = ?,`notes` = ?,`image_path` = ?,`is_active` = ? WHERE `id` = ?";
+        return "UPDATE OR ABORT `medicines` SET `id` = ?,`name` = ?,`dosage` = ?,`times_per_day` = ?,`notes` = ?,`image_path` = ?,`created_at` = ?,`is_active` = ? WHERE `id` = ?";
       }
 
       @Override
@@ -117,9 +122,10 @@ public final class MedicineDao_Impl implements MedicineDao {
         } else {
           statement.bindString(6, entity.imagePath);
         }
+        statement.bindLong(7, entity.createdAt);
         final int _tmp = entity.isActive ? 1 : 0;
-        statement.bindLong(7, _tmp);
-        statement.bindLong(8, entity.id);
+        statement.bindLong(8, _tmp);
+        statement.bindLong(9, entity.id);
       }
     };
     this.__preparedStmtOfUpdateImagePath = new SharedSQLiteStatement(__db) {
@@ -127,6 +133,30 @@ public final class MedicineDao_Impl implements MedicineDao {
       @NonNull
       public String createQuery() {
         final String _query = "UPDATE medicines SET image_path = ? WHERE id = ?";
+        return _query;
+      }
+    };
+    this.__preparedStmtOfSetActive = new SharedSQLiteStatement(__db) {
+      @Override
+      @NonNull
+      public String createQuery() {
+        final String _query = "UPDATE medicines SET is_active = ? WHERE id = ?";
+        return _query;
+      }
+    };
+    this.__preparedStmtOfDeleteById = new SharedSQLiteStatement(__db) {
+      @Override
+      @NonNull
+      public String createQuery() {
+        final String _query = "DELETE FROM medicines WHERE id = ?";
+        return _query;
+      }
+    };
+    this.__preparedStmtOfDeleteAll = new SharedSQLiteStatement(__db) {
+      @Override
+      @NonNull
+      public String createQuery() {
+        final String _query = "DELETE FROM medicines";
         return _query;
       }
     };
@@ -140,6 +170,18 @@ public final class MedicineDao_Impl implements MedicineDao {
       final long _result = __insertionAdapterOfMedicine.insertAndReturnId(medicine);
       __db.setTransactionSuccessful();
       return _result;
+    } finally {
+      __db.endTransaction();
+    }
+  }
+
+  @Override
+  public void insertAll(final List<Medicine> medicines) {
+    __db.assertNotSuspendingTransaction();
+    __db.beginTransaction();
+    try {
+      __insertionAdapterOfMedicine.insert(medicines);
+      __db.setTransactionSuccessful();
     } finally {
       __db.endTransaction();
     }
@@ -170,17 +212,17 @@ public final class MedicineDao_Impl implements MedicineDao {
   }
 
   @Override
-  public void updateImagePath(final int id, final String path) {
+  public void updateImagePath(final int medicineId, final String imagePath) {
     __db.assertNotSuspendingTransaction();
     final SupportSQLiteStatement _stmt = __preparedStmtOfUpdateImagePath.acquire();
     int _argIndex = 1;
-    if (path == null) {
+    if (imagePath == null) {
       _stmt.bindNull(_argIndex);
     } else {
-      _stmt.bindString(_argIndex, path);
+      _stmt.bindString(_argIndex, imagePath);
     }
     _argIndex = 2;
-    _stmt.bindLong(_argIndex, id);
+    _stmt.bindLong(_argIndex, medicineId);
     try {
       __db.beginTransaction();
       try {
@@ -195,8 +237,66 @@ public final class MedicineDao_Impl implements MedicineDao {
   }
 
   @Override
-  public LiveData<List<Medicine>> getAllMedicines() {
-    final String _sql = "SELECT * FROM medicines ORDER BY name ASC";
+  public void setActive(final int medicineId, final boolean isActive) {
+    __db.assertNotSuspendingTransaction();
+    final SupportSQLiteStatement _stmt = __preparedStmtOfSetActive.acquire();
+    int _argIndex = 1;
+    final int _tmp = isActive ? 1 : 0;
+    _stmt.bindLong(_argIndex, _tmp);
+    _argIndex = 2;
+    _stmt.bindLong(_argIndex, medicineId);
+    try {
+      __db.beginTransaction();
+      try {
+        _stmt.executeUpdateDelete();
+        __db.setTransactionSuccessful();
+      } finally {
+        __db.endTransaction();
+      }
+    } finally {
+      __preparedStmtOfSetActive.release(_stmt);
+    }
+  }
+
+  @Override
+  public void deleteById(final int medicineId) {
+    __db.assertNotSuspendingTransaction();
+    final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteById.acquire();
+    int _argIndex = 1;
+    _stmt.bindLong(_argIndex, medicineId);
+    try {
+      __db.beginTransaction();
+      try {
+        _stmt.executeUpdateDelete();
+        __db.setTransactionSuccessful();
+      } finally {
+        __db.endTransaction();
+      }
+    } finally {
+      __preparedStmtOfDeleteById.release(_stmt);
+    }
+  }
+
+  @Override
+  public void deleteAll() {
+    __db.assertNotSuspendingTransaction();
+    final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteAll.acquire();
+    try {
+      __db.beginTransaction();
+      try {
+        _stmt.executeUpdateDelete();
+        __db.setTransactionSuccessful();
+      } finally {
+        __db.endTransaction();
+      }
+    } finally {
+      __preparedStmtOfDeleteAll.release(_stmt);
+    }
+  }
+
+  @Override
+  public LiveData<List<Medicine>> getAllActive() {
+    final String _sql = "SELECT * FROM medicines WHERE is_active = 1 ORDER BY name ASC";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
     return __db.getInvalidationTracker().createLiveData(new String[] {"medicines"}, false, new Callable<List<Medicine>>() {
       @Override
@@ -210,6 +310,7 @@ public final class MedicineDao_Impl implements MedicineDao {
           final int _cursorIndexOfTimesPerDay = CursorUtil.getColumnIndexOrThrow(_cursor, "times_per_day");
           final int _cursorIndexOfNotes = CursorUtil.getColumnIndexOrThrow(_cursor, "notes");
           final int _cursorIndexOfImagePath = CursorUtil.getColumnIndexOrThrow(_cursor, "image_path");
+          final int _cursorIndexOfCreatedAt = CursorUtil.getColumnIndexOrThrow(_cursor, "created_at");
           final int _cursorIndexOfIsActive = CursorUtil.getColumnIndexOrThrow(_cursor, "is_active");
           final List<Medicine> _result = new ArrayList<Medicine>(_cursor.getCount());
           while (_cursor.moveToNext()) {
@@ -241,6 +342,7 @@ public final class MedicineDao_Impl implements MedicineDao {
             } else {
               _item.imagePath = _cursor.getString(_cursorIndexOfImagePath);
             }
+            _item.createdAt = _cursor.getLong(_cursorIndexOfCreatedAt);
             final int _tmp;
             _tmp = _cursor.getInt(_cursorIndexOfIsActive);
             _item.isActive = _tmp != 0;
@@ -260,7 +362,74 @@ public final class MedicineDao_Impl implements MedicineDao {
   }
 
   @Override
-  public Medicine getMedicineById(final int id) {
+  public LiveData<List<Medicine>> getAll() {
+    final String _sql = "SELECT * FROM medicines ORDER BY created_at DESC";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
+    return __db.getInvalidationTracker().createLiveData(new String[] {"medicines"}, false, new Callable<List<Medicine>>() {
+      @Override
+      @Nullable
+      public List<Medicine> call() throws Exception {
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+        try {
+          final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
+          final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "name");
+          final int _cursorIndexOfDosage = CursorUtil.getColumnIndexOrThrow(_cursor, "dosage");
+          final int _cursorIndexOfTimesPerDay = CursorUtil.getColumnIndexOrThrow(_cursor, "times_per_day");
+          final int _cursorIndexOfNotes = CursorUtil.getColumnIndexOrThrow(_cursor, "notes");
+          final int _cursorIndexOfImagePath = CursorUtil.getColumnIndexOrThrow(_cursor, "image_path");
+          final int _cursorIndexOfCreatedAt = CursorUtil.getColumnIndexOrThrow(_cursor, "created_at");
+          final int _cursorIndexOfIsActive = CursorUtil.getColumnIndexOrThrow(_cursor, "is_active");
+          final List<Medicine> _result = new ArrayList<Medicine>(_cursor.getCount());
+          while (_cursor.moveToNext()) {
+            final Medicine _item;
+            final String _tmpName;
+            if (_cursor.isNull(_cursorIndexOfName)) {
+              _tmpName = null;
+            } else {
+              _tmpName = _cursor.getString(_cursorIndexOfName);
+            }
+            final String _tmpDosage;
+            if (_cursor.isNull(_cursorIndexOfDosage)) {
+              _tmpDosage = null;
+            } else {
+              _tmpDosage = _cursor.getString(_cursorIndexOfDosage);
+            }
+            final int _tmpTimesPerDay;
+            _tmpTimesPerDay = _cursor.getInt(_cursorIndexOfTimesPerDay);
+            final String _tmpNotes;
+            if (_cursor.isNull(_cursorIndexOfNotes)) {
+              _tmpNotes = null;
+            } else {
+              _tmpNotes = _cursor.getString(_cursorIndexOfNotes);
+            }
+            _item = new Medicine(_tmpName,_tmpDosage,_tmpTimesPerDay,_tmpNotes);
+            _item.id = _cursor.getInt(_cursorIndexOfId);
+            if (_cursor.isNull(_cursorIndexOfImagePath)) {
+              _item.imagePath = null;
+            } else {
+              _item.imagePath = _cursor.getString(_cursorIndexOfImagePath);
+            }
+            _item.createdAt = _cursor.getLong(_cursorIndexOfCreatedAt);
+            final int _tmp;
+            _tmp = _cursor.getInt(_cursorIndexOfIsActive);
+            _item.isActive = _tmp != 0;
+            _result.add(_item);
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+        }
+      }
+
+      @Override
+      protected void finalize() {
+        _statement.release();
+      }
+    });
+  }
+
+  @Override
+  public Medicine getByIdSync(final int id) {
     final String _sql = "SELECT * FROM medicines WHERE id = ? LIMIT 1";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
@@ -274,6 +443,7 @@ public final class MedicineDao_Impl implements MedicineDao {
       final int _cursorIndexOfTimesPerDay = CursorUtil.getColumnIndexOrThrow(_cursor, "times_per_day");
       final int _cursorIndexOfNotes = CursorUtil.getColumnIndexOrThrow(_cursor, "notes");
       final int _cursorIndexOfImagePath = CursorUtil.getColumnIndexOrThrow(_cursor, "image_path");
+      final int _cursorIndexOfCreatedAt = CursorUtil.getColumnIndexOrThrow(_cursor, "created_at");
       final int _cursorIndexOfIsActive = CursorUtil.getColumnIndexOrThrow(_cursor, "is_active");
       final Medicine _result;
       if (_cursor.moveToFirst()) {
@@ -304,11 +474,90 @@ public final class MedicineDao_Impl implements MedicineDao {
         } else {
           _result.imagePath = _cursor.getString(_cursorIndexOfImagePath);
         }
+        _result.createdAt = _cursor.getLong(_cursorIndexOfCreatedAt);
         final int _tmp;
         _tmp = _cursor.getInt(_cursorIndexOfIsActive);
         _result.isActive = _tmp != 0;
       } else {
         _result = null;
+      }
+      return _result;
+    } finally {
+      _cursor.close();
+      _statement.release();
+    }
+  }
+
+  @Override
+  public List<Medicine> getAllActiveSync() {
+    final String _sql = "SELECT * FROM medicines WHERE is_active = 1";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+    try {
+      final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
+      final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "name");
+      final int _cursorIndexOfDosage = CursorUtil.getColumnIndexOrThrow(_cursor, "dosage");
+      final int _cursorIndexOfTimesPerDay = CursorUtil.getColumnIndexOrThrow(_cursor, "times_per_day");
+      final int _cursorIndexOfNotes = CursorUtil.getColumnIndexOrThrow(_cursor, "notes");
+      final int _cursorIndexOfImagePath = CursorUtil.getColumnIndexOrThrow(_cursor, "image_path");
+      final int _cursorIndexOfCreatedAt = CursorUtil.getColumnIndexOrThrow(_cursor, "created_at");
+      final int _cursorIndexOfIsActive = CursorUtil.getColumnIndexOrThrow(_cursor, "is_active");
+      final List<Medicine> _result = new ArrayList<Medicine>(_cursor.getCount());
+      while (_cursor.moveToNext()) {
+        final Medicine _item;
+        final String _tmpName;
+        if (_cursor.isNull(_cursorIndexOfName)) {
+          _tmpName = null;
+        } else {
+          _tmpName = _cursor.getString(_cursorIndexOfName);
+        }
+        final String _tmpDosage;
+        if (_cursor.isNull(_cursorIndexOfDosage)) {
+          _tmpDosage = null;
+        } else {
+          _tmpDosage = _cursor.getString(_cursorIndexOfDosage);
+        }
+        final int _tmpTimesPerDay;
+        _tmpTimesPerDay = _cursor.getInt(_cursorIndexOfTimesPerDay);
+        final String _tmpNotes;
+        if (_cursor.isNull(_cursorIndexOfNotes)) {
+          _tmpNotes = null;
+        } else {
+          _tmpNotes = _cursor.getString(_cursorIndexOfNotes);
+        }
+        _item = new Medicine(_tmpName,_tmpDosage,_tmpTimesPerDay,_tmpNotes);
+        _item.id = _cursor.getInt(_cursorIndexOfId);
+        if (_cursor.isNull(_cursorIndexOfImagePath)) {
+          _item.imagePath = null;
+        } else {
+          _item.imagePath = _cursor.getString(_cursorIndexOfImagePath);
+        }
+        _item.createdAt = _cursor.getLong(_cursorIndexOfCreatedAt);
+        final int _tmp;
+        _tmp = _cursor.getInt(_cursorIndexOfIsActive);
+        _item.isActive = _tmp != 0;
+        _result.add(_item);
+      }
+      return _result;
+    } finally {
+      _cursor.close();
+      _statement.release();
+    }
+  }
+
+  @Override
+  public int countActive() {
+    final String _sql = "SELECT COUNT(*) FROM medicines WHERE is_active = 1";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+    try {
+      final int _result;
+      if (_cursor.moveToFirst()) {
+        _result = _cursor.getInt(0);
+      } else {
+        _result = 0;
       }
       return _result;
     } finally {

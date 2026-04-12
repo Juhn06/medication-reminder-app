@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Toolbar -->
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/btn_back"
             android:layout_width="match_parent"
@@ -21,7 +20,6 @@
             app:titleTextColor="@android:color/white"
             app:navigationIcon="@drawable/ic_back" />
 
-        <!-- Ảnh thuốc -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,7 +52,6 @@
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Thông tin -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -107,7 +104,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Lịch uống -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,6 +135,17 @@
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <!-- Nút sửa -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginBottom="8dp"
+            android:text="✏ Sửa thuốc"
+            android:backgroundTint="#1976D2"
+            android:textColor="@android:color/white" />
 
         <!-- Nút xóa -->
         <com.google.android.material.button.MaterialButton

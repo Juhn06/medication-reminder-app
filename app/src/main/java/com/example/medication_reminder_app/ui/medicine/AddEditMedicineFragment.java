@@ -1,11 +1,9 @@
 package com.example.medication_reminder_app.ui.medicine;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,7 +22,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import com.example.medication_reminder_app.R;
 import com.example.medication_reminder_app.data.entity.Medicine;
 import com.example.medication_reminder_app.data.entity.Schedule;
 import com.example.medication_reminder_app.databinding.FragmentAddEditMedicineBinding;
@@ -46,11 +43,11 @@ public class AddEditMedicineFragment extends Fragment {
 
     private String savedImagePath = null;
     private Uri cameraImageUri = null;
+    private int medicineId = -1;
+    private boolean isEditMode = false;
 
-    // Danh sách giờ uống thuốc do user chọn
-    private final List<int[]> timeSlots = new ArrayList<>(); // [hour, minute]
+    private final List<int[]> timeSlots = new ArrayList<>();
 
-    // Camera launcher
     private final ActivityResultLauncher<Uri> cameraLauncher =
             registerForActivityResult(new ActivityResultContracts.TakePicture(), success -> {
                 if (success && cameraImageUri != null) {
@@ -60,7 +57,6 @@ public class AddEditMedicineFragment extends Fragment {
                 }
             });
 
-    // Gallery launcher
     private final ActivityResultLauncher<String> galleryLauncher =
             registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
                 if (uri != null) {
@@ -70,7 +66,6 @@ public class AddEditMedicineFragment extends Fragment {
                 }
             });
 
-    // Permission launcher
     private final ActivityResultLauncher<String> permissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
                 if (granted) openCamera();
@@ -93,16 +88,56 @@ public class AddEditMedicineFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(MedicineViewModel.class);
 
-        // Nút chọn ảnh
+        // Kiểm tra edit mode
+        medicineId = getArguments() != null ? getArguments().getInt("medicine_id", -1) : -1;
+        isEditMode = medicineId != -1;
+
+        if (isEditMode) {
+            // Load thông tin thuốc cũ
+            binding.toolbar.setTitle("Sửa thuốc");
+            binding.btnSave.setText("Cập nhật");
+
+            viewModel.getAllMedicines().observe(getViewLifecycleOwner(), medicines -> {
+                for (Medicine m : medicines) {
+                    if (m.id == medicineId) {
+                        // Điền thông tin cũ vào form
+                        binding.etMedicineName.setText(m.name);
+                        binding.etDosage.setText(m.dosage);
+                        binding.etNotes.setText(m.notes);
+                        savedImagePath = m.imagePath;
+
+                        // Hiển thị ảnh cũ
+                        if (m.imagePath != null && !m.imagePath.isEmpty()) {
+                            File f = new File(m.imagePath);
+                            if (f.exists()) {
+                                binding.imgPreview.setImageURI(Uri.fromFile(f));
+                                binding.imgPreview.setVisibility(View.VISIBLE);
+                            }
+                        }
+                        break;
+                    }
+                }
+            });
+
+            // Load lịch uống cũ
+            viewModel.getSchedulesForMedicine(medicineId).observe(getViewLifecycleOwner(), schedules -> {
+                if (!timeSlots.isEmpty()) return; // Tránh load lại
+                timeSlots.clear();
+                binding.chipGroupTimes.removeAllViews();
+                for (Schedule s : schedules) {
+                    int[] slot = new int[]{s.timeHour, s.timeMinute};
+                    timeSlots.add(slot);
+                    addTimeChip(s.timeHour, s.timeMinute, slot);
+                }
+            });
+        } else {
+            binding.toolbar.setTitle("Thêm thuốc mới");
+            binding.btnSave.setText("Lưu thuốc");
+        }
+
         binding.btnPickImage.setOnClickListener(v -> showImagePickerDialog());
-
-        // Nút thêm giờ uống
         binding.btnAddTime.setOnClickListener(v -> showTimePicker());
-
-        // Nút lưu
         binding.btnSave.setOnClickListener(v -> saveMedicine());
-
-        // Nút hủy
         binding.btnCancel.setOnClickListener(v ->
                 Navigation.findNavController(view).navigateUp());
     }
@@ -113,8 +148,7 @@ public class AddEditMedicineFragment extends Fragment {
                 .setItems(new String[]{"Chụp ảnh", "Chọn từ thư viện"}, (dialog, which) -> {
                     if (which == 0) checkCameraPermissionAndOpen();
                     else galleryLauncher.launch("image/*");
-                })
-                .show();
+                }).show();
     }
 
     private void checkCameraPermissionAndOpen() {
@@ -132,9 +166,7 @@ public class AddEditMedicineFragment extends Fragment {
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
         cameraImageUri = requireContext().getContentResolver()
                 .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        if (cameraImageUri != null) {
-            cameraLauncher.launch(cameraImageUri);
-        }
+        if (cameraImageUri != null) cameraLauncher.launch(cameraImageUri);
     }
 
     private String copyUriToInternalStorage(Uri uri) {
@@ -155,13 +187,11 @@ public class AddEditMedicineFragment extends Fragment {
     }
 
     private void showTimePicker() {
-        TimePickerDialog tpd = new TimePickerDialog(requireContext(), (tp, hour, minute) -> {
-            // FIX: Lưu tham chiếu object thay vì index để xóa chính xác dù thứ tự thay đổi
+        new TimePickerDialog(requireContext(), (tp, hour, minute) -> {
             int[] slot = new int[]{hour, minute};
             timeSlots.add(slot);
             addTimeChip(hour, minute, slot);
-        }, 8, 0, true);
-        tpd.show();
+        }, 8, 0, true).show();
     }
 
     private void addTimeChip(int hour, int minute, int[] slot) {
@@ -170,7 +200,7 @@ public class AddEditMedicineFragment extends Fragment {
         chip.setCloseIconVisible(true);
         chip.setOnCloseIconClickListener(v -> {
             binding.chipGroupTimes.removeView(chip);
-            timeSlots.remove(slot); // xóa đúng object tham chiếu, không phụ thuộc index
+            timeSlots.remove(slot);
         });
         binding.chipGroupTimes.addView(chip);
     }
@@ -189,25 +219,42 @@ public class AddEditMedicineFragment extends Fragment {
             return;
         }
         if (timeSlots.isEmpty()) {
-            Toast.makeText(requireContext(), "Vui lòng thêm ít nhất 1 giờ uống", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Vui lòng thêm ít nhất 1 giờ uống",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Medicine medicine = new Medicine(name, dosage, timeSlots.size(), notes);
-        if (savedImagePath != null) medicine.imagePath = savedImagePath;
-
         List<Schedule> schedules = new ArrayList<>();
         for (int[] t : timeSlots) {
-            schedules.add(new Schedule(0, t[0], t[1])); // medicineId sẽ được set trong Repository
+            schedules.add(new Schedule(0, t[0], t[1]));
         }
 
         binding.btnSave.setEnabled(false);
-        viewModel.addMedicineWithSchedules(medicine, schedules, id -> {
-            if (getContext() != null) {
-                Toast.makeText(requireContext(), "Đã thêm thuốc thành công!", Toast.LENGTH_SHORT).show();
-                Navigation.findNavController(requireView()).navigateUp();
-            }
-        });
+
+        if (isEditMode) {
+            // SỬA thuốc
+            Medicine medicine = new Medicine(name, dosage, timeSlots.size(), notes);
+            medicine.id = medicineId;
+            if (savedImagePath != null) medicine.imagePath = savedImagePath;
+
+            viewModel.updateMedicineWithSchedules(medicine, schedules, () -> {
+                if (getContext() != null) {
+                    Toast.makeText(requireContext(), "Đã cập nhật thuốc!", Toast.LENGTH_SHORT).show();
+                    Navigation.findNavController(requireView()).navigateUp();
+                }
+            });
+        } else {
+            // THÊM MỚI
+            Medicine medicine = new Medicine(name, dosage, timeSlots.size(), notes);
+            if (savedImagePath != null) medicine.imagePath = savedImagePath;
+
+            viewModel.addMedicineWithSchedules(medicine, schedules, id -> {
+                if (getContext() != null) {
+                    Toast.makeText(requireContext(), "Đã thêm thuốc thành công!", Toast.LENGTH_SHORT).show();
+                    Navigation.findNavController(requireView()).navigateUp();
+                }
+            });
+        }
     }
 
     @Override

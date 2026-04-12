@@ -34,6 +34,9 @@ public final class FragmentMedicineDetailBinding implements ViewBinding {
   public final MaterialButton btnDelete;
 
   @NonNull
+  public final MaterialButton btnEdit;
+
+  @NonNull
   public final ImageView imgMedicineDetail;
 
   @NonNull
@@ -53,14 +56,15 @@ public final class FragmentMedicineDetailBinding implements ViewBinding {
 
   private FragmentMedicineDetailBinding(@NonNull ScrollView rootView,
       @NonNull MaterialToolbar btnBack, @NonNull FloatingActionButton btnChangeImage,
-      @NonNull MaterialButton btnDelete, @NonNull ImageView imgMedicineDetail,
-      @NonNull RecyclerView recyclerSchedules, @NonNull TextView tvDetailDosage,
-      @NonNull TextView tvDetailName, @NonNull TextView tvDetailNotes,
-      @NonNull TextView tvDetailTimes) {
+      @NonNull MaterialButton btnDelete, @NonNull MaterialButton btnEdit,
+      @NonNull ImageView imgMedicineDetail, @NonNull RecyclerView recyclerSchedules,
+      @NonNull TextView tvDetailDosage, @NonNull TextView tvDetailName,
+      @NonNull TextView tvDetailNotes, @NonNull TextView tvDetailTimes) {
     this.rootView = rootView;
     this.btnBack = btnBack;
     this.btnChangeImage = btnChangeImage;
     this.btnDelete = btnDelete;
+    this.btnEdit = btnEdit;
     this.imgMedicineDetail = imgMedicineDetail;
     this.recyclerSchedules = recyclerSchedules;
     this.tvDetailDosage = tvDetailDosage;
@@ -114,6 +118,12 @@ public final class FragmentMedicineDetailBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.btn_edit;
+      MaterialButton btnEdit = ViewBindings.findChildViewById(rootView, id);
+      if (btnEdit == null) {
+        break missingId;
+      }
+
       id = R.id.img_medicine_detail;
       ImageView imgMedicineDetail = ViewBindings.findChildViewById(rootView, id);
       if (imgMedicineDetail == null) {
@@ -151,7 +161,7 @@ public final class FragmentMedicineDetailBinding implements ViewBinding {
       }
 
       return new FragmentMedicineDetailBinding((ScrollView) rootView, btnBack, btnChangeImage,
-          btnDelete, imgMedicineDetail, recyclerSchedules, tvDetailDosage, tvDetailName,
+          btnDelete, btnEdit, imgMedicineDetail, recyclerSchedules, tvDetailDosage, tvDetailName,
           tvDetailNotes, tvDetailTimes);
     }
     String missingId = rootView.getResources().getResourceName(id);

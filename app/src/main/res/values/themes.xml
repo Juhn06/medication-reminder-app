@@ -1,9 +1,22 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
     <style name="Base.Theme.Medicationreminderapp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/medical_primary</item>
+        <item name="colorSecondary">@color/medical_primary_light</item>
+        <item name="colorTertiary">@color/lavender</item>
+        <item name="android:windowBackground">@color/medical_bg</item>
+        <item name="android:statusBarColor">@color/medical_bg</item>
+        <item name="android:navigationBarColor">@color/medical_surface</item>
     </style>
 
-    <style name="Theme.Medicationreminderapp" parent="Base.Theme.Medicationreminderapp" />
+    <style name="Theme.Medicationreminderapp" parent="Base.Theme.Medicationreminderapp"/>
+
+    <style name="Theme.MyApplicationMedTech" parent="Base.Theme.Medicationreminderapp"/>
+
+    <style name="Theme.MyApplicationMedTech.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/medical_bg</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_medical_cross</item>
+        <item name="windowSplashScreenAnimationDuration">220</item>
+        <item name="postSplashScreenTheme">@style/Theme.MyApplicationMedTech</item>
+    </style>
 </resources>

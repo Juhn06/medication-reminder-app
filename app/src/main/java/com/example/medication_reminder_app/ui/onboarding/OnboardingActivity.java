@@ -1,5 +1,7 @@
 package com.example.medication_reminder_app.ui.onboarding;
 
+
+import com.example.medication_reminder_app.R;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;

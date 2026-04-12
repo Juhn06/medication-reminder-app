@@ -6,7 +6,6 @@
     android:id="@+id/nav_medicine"
     app:startDestination="@id/medicineListFragment">
 
-    <!-- Màn danh sách thuốc -->
     <fragment
         android:id="@+id/medicineListFragment"
         android:name="com.example.medication_reminder_app.ui.medicine.MedicineListFragment"
@@ -19,7 +18,7 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right"/>
 
         <action
             android:id="@+id/action_list_to_detail"
@@ -31,22 +30,25 @@
             <argument
                 android:name="medicine_id"
                 app:argType="integer"
-                android:defaultValue="-1" />
+                android:defaultValue="-1"/>
             <argument
                 android:name="medicine_name"
                 app:argType="string"
-                android:defaultValue="" />
+                android:defaultValue=""/>
         </action>
     </fragment>
 
-    <!-- Màn thêm thuốc -->
     <fragment
         android:id="@+id/addEditMedicineFragment"
         android:name="com.example.medication_reminder_app.ui.medicine.AddEditMedicineFragment"
         android:label="Thêm thuốc"
-        tools:layout="@layout/fragment_add_edit_medicine" />
+        tools:layout="@layout/fragment_add_edit_medicine">
+        <argument
+            android:name="medicine_id"
+            app:argType="integer"
+            android:defaultValue="-1"/>
+    </fragment>
 
-    <!-- Màn chi tiết thuốc -->
     <fragment
         android:id="@+id/medicineDetailFragment"
         android:name="com.example.medication_reminder_app.ui.medicine.MedicineDetailFragment"
@@ -55,11 +57,29 @@
         <argument
             android:name="medicine_id"
             app:argType="integer"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"/>
         <argument
             android:name="medicine_name"
             app:argType="string"
-            android:defaultValue="" />
+            android:defaultValue=""/>
+
+        <action
+            android:id="@+id/action_detail_to_edit"
+            app:destination="@id/addEditMedicineFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+            <argument
+                android:name="medicine_id"
+                app:argType="integer"
+                android:defaultValue="-1"/>
+        </action>
     </fragment>
+
+    <fragment
+        android:id="@+id/sensorFragment"
+        android:name="com.example.medication_reminder_app.ui.sensor.SensorFragment"
+        android:label="Cảm biến"/>
 
 </navigation>

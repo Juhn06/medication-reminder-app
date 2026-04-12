@@ -10,4 +10,8 @@
     <string name="onboarding_desc_3">Tùy chỉnh lịch uống thuốc theo nhu cầu của bạn</string>
     <string name="onboarding_title_4">Chụp ảnh thuốc</string>
     <string name="onboarding_desc_4">Chụp và lưu ảnh thuốc để dễ nhận biết</string>
+
+    <string name="onboarding_skip">Bỏ qua</string>
+    <string name="onboarding_next">Tiếp theo</string>
+    <string name="onboarding_start">Bắt đầu</string>
 </resources>

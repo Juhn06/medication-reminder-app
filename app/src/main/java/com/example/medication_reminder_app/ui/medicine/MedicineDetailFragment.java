@@ -24,7 +24,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.medication_reminder_app.R;
 import com.example.medication_reminder_app.data.entity.Medicine;
-import com.example.medication_reminder_app.data.entity.Schedule;
 import com.example.medication_reminder_app.databinding.FragmentMedicineDetailBinding;
 import com.example.medication_reminder_app.ui.adapter.ScheduleAdapter;
 import com.example.medication_reminder_app.viewmodel.MedicineViewModel;
@@ -33,14 +32,13 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.util.List;
-import java.util.Locale;
 
 public class MedicineDetailFragment extends Fragment {
 
     private FragmentMedicineDetailBinding binding;
     private MedicineViewModel viewModel;
     private Medicine currentMedicine;
+    private int medicineId;
 
     private Uri cameraImageUri;
 
@@ -87,14 +85,13 @@ public class MedicineDetailFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(MedicineViewModel.class);
 
-        int medicineId = getArguments() != null ? getArguments().getInt("medicine_id", -1) : -1;
+        medicineId = getArguments() != null ? getArguments().getInt("medicine_id", -1) : -1;
 
         if (medicineId == -1) {
             Navigation.findNavController(view).navigateUp();
             return;
         }
 
-        // Lấy thông tin từ LiveData danh sách (đơn giản, không cần thêm query)
         viewModel.getAllMedicines().observe(getViewLifecycleOwner(), medicines -> {
             for (Medicine m : medicines) {
                 if (m.id == medicineId) {
@@ -105,7 +102,6 @@ public class MedicineDetailFragment extends Fragment {
             }
         });
 
-        // Danh sách lịch uống
         ScheduleAdapter scheduleAdapter = new ScheduleAdapter();
         binding.recyclerSchedules.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerSchedules.setAdapter(scheduleAdapter);
@@ -114,6 +110,14 @@ public class MedicineDetailFragment extends Fragment {
 
         // Nút đổi ảnh
         binding.btnChangeImage.setOnClickListener(v -> showImagePickerDialog());
+
+        // Nút sửa thuốc
+        binding.btnEdit.setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putInt("medicine_id", medicineId);
+            Navigation.findNavController(view)
+                    .navigate(R.id.action_detail_to_edit, args);
+        });
 
         // Nút xóa thuốc
         binding.btnDelete.setOnClickListener(v -> confirmDelete());

@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace 'com.example.medication_reminder_app'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.example.medication_reminder_app"
         minSdk 26
-        targetSdk 34
+        targetSdk 35
         versionCode 1
         versionName "1.0"
     }
@@ -32,6 +32,9 @@ android {
 }
 
 dependencies {
+    // Splash Screen API
+    implementation "androidx.core:core-splashscreen:1.0.1"
+
     // Room Database
     def room_version = "2.6.1"
     implementation "androidx.room:room-runtime:$room_version"
