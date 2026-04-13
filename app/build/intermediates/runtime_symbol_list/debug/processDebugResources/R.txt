@@ -3278,6 +3278,7 @@ int id bounce 0x7f080063
 int id bounceBoth 0x7f080064
 int id bounceEnd 0x7f080065
 int id bounceStart 0x7f080066
+int id btnPickDate 0x7f080247
 int id btn_add_time 0x7f080067
 int id btn_back 0x7f080068
 int id btn_cancel 0x7f080069
@@ -3410,6 +3411,7 @@ int id groups 0x7f0800e5
 int id header_title 0x7f0800e6
 int id hide_ime_id 0x7f0800e7
 int id hideable 0x7f0800e8
+int id historyFragment 0x7f080248
 int id home 0x7f0800e9
 int id homeAsUp 0x7f0800ea
 int id honorRequest 0x7f0800eb
@@ -3512,6 +3514,7 @@ int id mtrl_picker_title_text 0x7f08014b
 int id mtrl_view_tag_bottom_padding 0x7f08014c
 int id multiply 0x7f08014d
 int id nav_controller_view_tag 0x7f08014e
+int id nav_history 0x7f080249
 int id nav_host_fragment_container 0x7f08014f
 int id nav_medicine 0x7f080150
 int id nav_medicines 0x7f08023e
@@ -3581,6 +3584,7 @@ int id progress_horizontal 0x7f08018e
 int id radio 0x7f08018f
 int id ratio 0x7f080190
 int id rectangles 0x7f080191
+int id recyclerViewHistory 0x7f08024a
 int id recycler_medicines 0x7f080192
 int id recycler_schedules 0x7f080193
 int id report_drawn 0x7f080194
@@ -3713,12 +3717,20 @@ int id transition_scene_layoutid_cache 0x7f080211
 int id transition_transform 0x7f080212
 int id triangle 0x7f080213
 int id tvAccel 0x7f080214
+int id tvCompliance 0x7f08024b
 int id tvHumidity 0x7f080215
 int id tvLight 0x7f080216
+int id tvMedicineName 0x7f08024c
+int id tvMissedCount 0x7f08024d
 int id tvPressure 0x7f080240
+int id tvScheduledTime 0x7f08024e
+int id tvSelectedDate 0x7f08024f
+int id tvStatus 0x7f080250
+int id tvStatusIcon 0x7f080251
 int id tvStepAdvice 0x7f080241
 int id tvStepCount 0x7f080242
 int id tvSteps 0x7f080217
+int id tvTakenCount 0x7f080252
 int id tvTemp 0x7f080218
 int id tvTemperature 0x7f080243
 int id tvWarning 0x7f080219
@@ -3893,11 +3905,13 @@ int layout design_navigation_menu_item 0x7f0b002d
 int layout design_text_input_end_icon 0x7f0b002e
 int layout design_text_input_start_icon 0x7f0b002f
 int layout fragment_add_edit_medicine 0x7f0b0030
+int layout fragment_history 0x7f0b0077
 int layout fragment_medicine_detail 0x7f0b0031
 int layout fragment_medicine_list 0x7f0b0032
 int layout fragment_sensor 0x7f0b0076
 int layout ime_base_split_test_activity 0x7f0b0033
 int layout ime_secondary_split_test_activity 0x7f0b0034
+int layout item_history 0x7f0b0078
 int layout item_medicine 0x7f0b0035
 int layout item_onboarding_page 0x7f0b0036
 int layout item_schedule 0x7f0b0037

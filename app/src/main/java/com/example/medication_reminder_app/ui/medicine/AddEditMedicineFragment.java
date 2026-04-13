@@ -2,10 +2,14 @@ package com.example.medication_reminder_app.ui.medicine;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.AlarmManager;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -25,6 +29,7 @@ import androidx.navigation.Navigation;
 import com.example.medication_reminder_app.data.entity.Medicine;
 import com.example.medication_reminder_app.data.entity.Schedule;
 import com.example.medication_reminder_app.databinding.FragmentAddEditMedicineBinding;
+import com.example.medication_reminder_app.utils.AlarmUtils;
 import com.example.medication_reminder_app.viewmodel.MedicineViewModel;
 import com.google.android.material.chip.Chip;
 
@@ -88,25 +93,20 @@ public class AddEditMedicineFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(MedicineViewModel.class);
 
-        // Kiểm tra edit mode
         medicineId = getArguments() != null ? getArguments().getInt("medicine_id", -1) : -1;
         isEditMode = medicineId != -1;
 
         if (isEditMode) {
-            // Load thông tin thuốc cũ
             binding.toolbar.setTitle("Sửa thuốc");
             binding.btnSave.setText("Cập nhật");
 
             viewModel.getAllMedicines().observe(getViewLifecycleOwner(), medicines -> {
                 for (Medicine m : medicines) {
                     if (m.id == medicineId) {
-                        // Điền thông tin cũ vào form
                         binding.etMedicineName.setText(m.name);
                         binding.etDosage.setText(m.dosage);
                         binding.etNotes.setText(m.notes);
                         savedImagePath = m.imagePath;
-
-                        // Hiển thị ảnh cũ
                         if (m.imagePath != null && !m.imagePath.isEmpty()) {
                             File f = new File(m.imagePath);
                             if (f.exists()) {
@@ -119,9 +119,8 @@ public class AddEditMedicineFragment extends Fragment {
                 }
             });
 
-            // Load lịch uống cũ
             viewModel.getSchedulesForMedicine(medicineId).observe(getViewLifecycleOwner(), schedules -> {
-                if (!timeSlots.isEmpty()) return; // Tránh load lại
+                if (!timeSlots.isEmpty()) return;
                 timeSlots.clear();
                 binding.chipGroupTimes.removeAllViews();
                 for (Schedule s : schedules) {
@@ -162,7 +161,8 @@ public class AddEditMedicineFragment extends Fragment {
 
     private void openCamera() {
         ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.DISPLAY_NAME, "med_" + System.currentTimeMillis() + ".jpg");
+        values.put(MediaStore.Images.Media.DISPLAY_NAME,
+                "med_" + System.currentTimeMillis() + ".jpg");
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
         cameraImageUri = requireContext().getContentResolver()
                 .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
@@ -205,6 +205,23 @@ public class AddEditMedicineFragment extends Fragment {
         binding.chipGroupTimes.addView(chip);
     }
 
+    private boolean checkAlarmPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            AlarmManager alarmManager =
+                    (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
+            if (!alarmManager.canScheduleExactAlarms()) {
+                Intent intent = new Intent(
+                        android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                startActivity(intent);
+                Toast.makeText(requireContext(),
+                        "Vui lòng cấp quyền đặt lịch báo thức rồi thử lại",
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void saveMedicine() {
         String name   = binding.etMedicineName.getText().toString().trim();
         String dosage = binding.etDosage.getText().toString().trim();
@@ -219,10 +236,11 @@ public class AddEditMedicineFragment extends Fragment {
             return;
         }
         if (timeSlots.isEmpty()) {
-            Toast.makeText(requireContext(), "Vui lòng thêm ít nhất 1 giờ uống",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(),
+                    "Vui lòng thêm ít nhất 1 giờ uống", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (!checkAlarmPermission()) return;
 
         List<Schedule> schedules = new ArrayList<>();
         for (int[] t : timeSlots) {
@@ -232,25 +250,31 @@ public class AddEditMedicineFragment extends Fragment {
         binding.btnSave.setEnabled(false);
 
         if (isEditMode) {
-            // SỬA thuốc
             Medicine medicine = new Medicine(name, dosage, timeSlots.size(), notes);
             medicine.id = medicineId;
             if (savedImagePath != null) medicine.imagePath = savedImagePath;
 
-            viewModel.updateMedicineWithSchedules(medicine, schedules, () -> {
+            viewModel.updateMedicineWithSchedules(medicine, schedules, (id, savedSchedules) -> {
                 if (getContext() != null) {
-                    Toast.makeText(requireContext(), "Đã cập nhật thuốc!", Toast.LENGTH_SHORT).show();
+                    for (Schedule s : savedSchedules) {
+                        AlarmUtils.setAlarm(requireContext(), s);
+                    }
+                    Toast.makeText(requireContext(),
+                            "Đã cập nhật thuốc!", Toast.LENGTH_SHORT).show();
                     Navigation.findNavController(requireView()).navigateUp();
                 }
             });
         } else {
-            // THÊM MỚI
             Medicine medicine = new Medicine(name, dosage, timeSlots.size(), notes);
             if (savedImagePath != null) medicine.imagePath = savedImagePath;
 
-            viewModel.addMedicineWithSchedules(medicine, schedules, id -> {
+            viewModel.addMedicineWithSchedules(medicine, schedules, (id, savedSchedules) -> {
                 if (getContext() != null) {
-                    Toast.makeText(requireContext(), "Đã thêm thuốc thành công!", Toast.LENGTH_SHORT).show();
+                    for (Schedule s : savedSchedules) {
+                        AlarmUtils.setAlarm(requireContext(), s);
+                    }
+                    Toast.makeText(requireContext(),
+                            "Đã thêm thuốc thành công!", Toast.LENGTH_SHORT).show();
                     Navigation.findNavController(requireView()).navigateUp();
                 }
             });

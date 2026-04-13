@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
             if (id == R.id.nav_medicines) {
                 navController.navigate(R.id.medicineListFragment);
                 return true;
+            } else if (id == R.id.nav_history) {
+                navController.navigate(R.id.historyFragment);
+                return true;
             } else if (id == R.id.nav_sensor) {
                 navController.navigate(R.id.sensorFragment);
                 return true;

@@ -5,6 +5,10 @@
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="Thuốc"/>
     <item
+        android:id="@+id/nav_history"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="Lịch sử"/>
+    <item
         android:id="@+id/nav_sensor"
         android:icon="@android:drawable/ic_menu_compass"
         android:title="Cảm biến"/>

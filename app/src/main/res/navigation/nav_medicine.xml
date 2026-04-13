@@ -82,4 +82,9 @@
         android:name="com.example.medication_reminder_app.ui.sensor.SensorFragment"
         android:label="Cảm biến"/>
 
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.example.medication_reminder_app.ui.history.HistoryFragment"
+        android:label="Lịch sử"/>
+
 </navigation>

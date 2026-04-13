@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:2:1-35:12
-INJECTED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:2:1-35:12
-INJECTED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:2:1-35:12
-INJECTED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:2:1-35:12
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:2:1-67:12
+INJECTED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:2:1-67:12
+INJECTED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:2:1-67:12
+INJECTED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:2:1-67:12
 MERGED from [androidx.databinding:databinding-adapters:9.0.1] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\004996a53d41b18b43fc86e84b941b6d\workspace\transformed\databinding-adapters-9.0.1\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.databinding:databinding-ktx:9.0.1] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\02dc10c071109d0247362b78eb8ac95c\workspace\transformed\databinding-ktx-9.0.1\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.databinding:databinding-runtime:9.0.1] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\975ba043b01c1dd37c0a2d7a100a84bd\workspace\transformed\databinding-runtime-9.0.1\AndroidManifest.xml:2:1-7:12
@@ -87,9 +87,63 @@ MERGED from [androidx.print:print:1.0.0] C:\Users\Xuan\.gradle\caches\9.1.0\tran
 		INJECTED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:6:5-76
+	android:name
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:6:22-74
+uses-permission#android.permission.SCHEDULE_EXACT_ALARM
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:7:5-78
+	android:name
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:7:22-76
+uses-permission#android.permission.USE_EXACT_ALARM
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:8:5-73
+	android:name
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:8:22-71
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:9:5-80
+MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\9047ea921b50cab526b1bdf45e336572\workspace\transformed\work-runtime-2.9.0\AndroidManifest.xml:25:5-81
+MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\9047ea921b50cab526b1bdf45e336572\workspace\transformed\work-runtime-2.9.0\AndroidManifest.xml:25:5-81
+	android:name
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:9:22-78
+uses-permission#android.permission.VIBRATE
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:10:5-65
+	android:name
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:10:22-63
+uses-permission#android.permission.WAKE_LOCK
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:11:5-67
+MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\9047ea921b50cab526b1bdf45e336572\workspace\transformed\work-runtime-2.9.0\AndroidManifest.xml:23:5-68
+MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\9047ea921b50cab526b1bdf45e336572\workspace\transformed\work-runtime-2.9.0\AndroidManifest.xml:23:5-68
+	android:name
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:11:22-65
+uses-permission#android.permission.CAMERA
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:12:5-64
+	android:name
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:12:22-62
+uses-permission#android.permission.READ_MEDIA_IMAGES
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:13:5-75
+	android:name
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:13:22-73
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:14:5-15:37
+	android:maxSdkVersion
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:15:9-35
+	android:name
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:14:22-77
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:16:5-17:37
+	android:maxSdkVersion
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:17:9-35
+	android:name
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:16:22-78
+uses-feature#android.hardware.camera
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:19:5-84
+	android:required
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:19:58-82
+	android:name
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:19:19-57
 application
-ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:5:5-33:19
-INJECTED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:5:5-33:19
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:21:5-65:19
+INJECTED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:21:5-65:19
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\c1bcf5abc105f2ab4efb12202504887f\workspace\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\c1bcf5abc105f2ab4efb12202504887f\workspace\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.camera:camera-core:1.3.1] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\424b950aea546eed8273a687f8562d58\workspace\transformed\camera-core-1.3.1\AndroidManifest.xml:23:5-34:19
@@ -121,55 +175,77 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Xu
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.12.0] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\7dbe65bcf1bee40a029d69df6afc315e\workspace\transformed\core-1.12.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:12:9-35
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:28:9-35
 	android:label
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:10:9-41
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:26:9-41
 	android:fullBackupContent
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:8:9-54
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:24:9-54
 	android:roundIcon
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:11:9-54
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:27:9-54
 	android:icon
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:9:9-43
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:25:9-43
 	android:allowBackup
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:6:9-35
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:22:9-35
 	android:theme
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:13:9-59
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:29:9-59
 	android:dataExtractionRules
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:7:9-65
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:23:9-65
 receiver#com.example.medication_reminder_app.MedicineReceiver
-ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:14:9-22:20
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:32:9-42:20
 	android:enabled
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:16:13-35
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:34:13-35
 	android:exported
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:17:13-37
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:35:13-36
 	android:name
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:15:13-45
-intent-filter#action:name:ACTION_MEDICINE_REMINDER+action:name:android.intent.action.BOOT_COMPLETED
-ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:18:13-21:29
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:33:13-45
+intent-filter#action:name:ACTION_MEDICINE_REMINDER+action:name:ACTION_SNOOZE+action:name:ACTION_TAKEN+action:name:android.intent.action.BOOT_COMPLETED
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:36:13-41:29
 action#android.intent.action.BOOT_COMPLETED
-ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:19:17-79
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:37:17-78
 	android:name
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:19:25-76
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:37:25-76
 action#ACTION_MEDICINE_REMINDER
-ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:20:17-67
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:38:17-66
 	android:name
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:20:25-64
-activity#com.example.medication_reminder_app.MainActivity
-ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:24:9-32:20
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:38:25-64
+action#ACTION_TAKEN
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:39:17-54
+	android:name
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:39:25-52
+action#ACTION_SNOOZE
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:40:17-55
+	android:name
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:40:25-53
+activity#com.example.medication_reminder_app.SplashActivity
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:45:9-53:20
 	android:exported
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:26:13-36
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:47:13-36
+	android:theme
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:48:13-69
 	android:name
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:25:13-41
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:46:13-43
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:27:13-31:29
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:49:13-52:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:28:17-69
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:50:17-68
 	android:name
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:28:25-66
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:50:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:30:17-77
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:51:17-76
 	android:name
-		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:30:27-74
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:51:27-74
+activity#com.example.medication_reminder_app.ui.onboarding.OnboardingActivity
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:56:9-58:39
+	android:exported
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:58:13-37
+	android:name
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:57:13-61
+activity#com.example.medication_reminder_app.MainActivity
+ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:61:9-63:38
+	android:exported
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:63:13-36
+	android:name
+		ADDED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml:62:13-41
 uses-sdk
 INJECTED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\Xuan\AndroidStudioProjects\MedReminder\app\src\main\AndroidManifest.xml
@@ -342,18 +418,10 @@ ADDED from [androidx.camera:camera-camera2:1.3.1] C:\Users\Xuan\.gradle\caches\9
 		ADDED from [androidx.camera:camera-camera2:1.3.1] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\5494e36d747c4a741b64ce62bbd510c3\workspace\transformed\camera-camera2-1.3.1\AndroidManifest.xml:32:17-86
 	android:name
 		ADDED from [androidx.camera:camera-camera2:1.3.1] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\5494e36d747c4a741b64ce62bbd510c3\workspace\transformed\camera-camera2-1.3.1\AndroidManifest.xml:31:17-103
-uses-permission#android.permission.WAKE_LOCK
-ADDED from [androidx.work:work-runtime:2.9.0] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\9047ea921b50cab526b1bdf45e336572\workspace\transformed\work-runtime-2.9.0\AndroidManifest.xml:23:5-68
-	android:name
-		ADDED from [androidx.work:work-runtime:2.9.0] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\9047ea921b50cab526b1bdf45e336572\workspace\transformed\work-runtime-2.9.0\AndroidManifest.xml:23:22-65
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [androidx.work:work-runtime:2.9.0] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\9047ea921b50cab526b1bdf45e336572\workspace\transformed\work-runtime-2.9.0\AndroidManifest.xml:24:5-79
 	android:name
 		ADDED from [androidx.work:work-runtime:2.9.0] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\9047ea921b50cab526b1bdf45e336572\workspace\transformed\work-runtime-2.9.0\AndroidManifest.xml:24:22-76
-uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from [androidx.work:work-runtime:2.9.0] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\9047ea921b50cab526b1bdf45e336572\workspace\transformed\work-runtime-2.9.0\AndroidManifest.xml:25:5-81
-	android:name
-		ADDED from [androidx.work:work-runtime:2.9.0] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\9047ea921b50cab526b1bdf45e336572\workspace\transformed\work-runtime-2.9.0\AndroidManifest.xml:25:22-78
 uses-permission#android.permission.FOREGROUND_SERVICE
 ADDED from [androidx.work:work-runtime:2.9.0] C:\Users\Xuan\.gradle\caches\9.1.0\transforms\9047ea921b50cab526b1bdf45e336572\workspace\transformed\work-runtime-2.9.0\AndroidManifest.xml:26:5-77
 	android:name

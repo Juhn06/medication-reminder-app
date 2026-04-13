@@ -67,7 +67,8 @@ public class MedicineDetailFragment extends Fragment {
     private final ActivityResultLauncher<String> permissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
                 if (granted) openCamera();
-                else Toast.makeText(requireContext(), "Cần quyền camera", Toast.LENGTH_SHORT).show();
+                else Toast.makeText(requireContext(),
+                        "Cần quyền camera", Toast.LENGTH_SHORT).show();
             });
 
     @Nullable
@@ -85,13 +86,15 @@ public class MedicineDetailFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(MedicineViewModel.class);
 
-        medicineId = getArguments() != null ? getArguments().getInt("medicine_id", -1) : -1;
+        medicineId = getArguments() != null
+                ? getArguments().getInt("medicine_id", -1) : -1;
 
         if (medicineId == -1) {
             Navigation.findNavController(view).navigateUp();
             return;
         }
 
+        // Load thông tin thuốc
         viewModel.getAllMedicines().observe(getViewLifecycleOwner(), medicines -> {
             for (Medicine m : medicines) {
                 if (m.id == medicineId) {
@@ -102,11 +105,13 @@ public class MedicineDetailFragment extends Fragment {
             }
         });
 
+        // Load lịch uống
         ScheduleAdapter scheduleAdapter = new ScheduleAdapter();
-        binding.recyclerSchedules.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerSchedules.setLayoutManager(
+                new LinearLayoutManager(requireContext()));
         binding.recyclerSchedules.setAdapter(scheduleAdapter);
-        viewModel.getSchedulesForMedicine(medicineId).observe(getViewLifecycleOwner(),
-                scheduleAdapter::submitList);
+        viewModel.getSchedulesForMedicine(medicineId).observe(
+                getViewLifecycleOwner(), scheduleAdapter::submitList);
 
         // Nút đổi ảnh
         binding.btnChangeImage.setOnClickListener(v -> showImagePickerDialog());
@@ -123,7 +128,8 @@ public class MedicineDetailFragment extends Fragment {
         binding.btnDelete.setOnClickListener(v -> confirmDelete());
 
         // Nút back
-        binding.btnBack.setOnClickListener(v -> Navigation.findNavController(view).navigateUp());
+        binding.btnBack.setOnClickListener(v ->
+                Navigation.findNavController(view).navigateUp());
     }
 
     private void displayMedicine(Medicine m) {
@@ -135,10 +141,15 @@ public class MedicineDetailFragment extends Fragment {
 
         if (m.imagePath != null && !m.imagePath.isEmpty()) {
             File f = new File(m.imagePath);
-            if (f.exists()) binding.imgMedicineDetail.setImageURI(Uri.fromFile(f));
-            else binding.imgMedicineDetail.setImageResource(R.drawable.ic_medicine_placeholder);
+            if (f.exists()) {
+                binding.imgMedicineDetail.setImageURI(Uri.fromFile(f));
+            } else {
+                binding.imgMedicineDetail.setImageResource(
+                        R.drawable.ic_medicine_placeholder);
+            }
         } else {
-            binding.imgMedicineDetail.setImageResource(R.drawable.ic_medicine_placeholder);
+            binding.imgMedicineDetail.setImageResource(
+                    R.drawable.ic_medicine_placeholder);
         }
     }
 
@@ -162,7 +173,8 @@ public class MedicineDetailFragment extends Fragment {
 
     private void openCamera() {
         ContentValues cv = new ContentValues();
-        cv.put(MediaStore.Images.Media.DISPLAY_NAME, "med_" + System.currentTimeMillis() + ".jpg");
+        cv.put(MediaStore.Images.Media.DISPLAY_NAME,
+                "med_" + System.currentTimeMillis() + ".jpg");
         cv.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
         cameraImageUri = requireContext().getContentResolver()
                 .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
@@ -190,10 +202,12 @@ public class MedicineDetailFragment extends Fragment {
         if (currentMedicine == null) return;
         new AlertDialog.Builder(requireContext())
                 .setTitle("Xóa thuốc")
-                .setMessage("Bạn có chắc muốn xóa \"" + currentMedicine.name + "\"?")
+                .setMessage("Bạn có chắc muốn xóa \""
+                        + currentMedicine.name + "\"?")
                 .setPositiveButton("Xóa", (d, w) -> {
-                    viewModel.deleteMedicine(currentMedicine);
-                    Toast.makeText(requireContext(), "Đã xóa thuốc", Toast.LENGTH_SHORT).show();
+                    viewModel.deleteMedicine(requireContext(), currentMedicine);
+                    Toast.makeText(requireContext(),
+                            "Đã xóa thuốc", Toast.LENGTH_SHORT).show();
                     Navigation.findNavController(requireView()).navigateUp();
                 })
                 .setNegativeButton("Hủy", null)

@@ -1,6 +1,7 @@
 package com.example.medication_reminder_app.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -33,23 +34,23 @@ public class MedicineViewModel extends AndroidViewModel {
     }
 
     public void addMedicineWithSchedules(Medicine medicine, List<Schedule> schedules,
-                                         MedicineRepository.OnInsertCallback callback) {
-        repository.addMedicineWithSchedules(medicine, schedules, id -> {
+                                         MedicineRepository.OnSaveCallback callback) {
+        repository.addMedicineWithSchedules(medicine, schedules, (id, savedSchedules) -> {
             saveStatus.postValue("SUCCESS:" + id);
-            if (callback != null) callback.onInserted(id);
+            if (callback != null) callback.onSaved(id, savedSchedules);
         });
     }
 
     public void updateMedicineWithSchedules(Medicine medicine, List<Schedule> schedules,
-                                            Runnable onComplete) {
-        repository.updateMedicineWithSchedules(medicine, schedules, () -> {
+                                            MedicineRepository.OnSaveCallback callback) {
+        repository.updateMedicineWithSchedules(medicine, schedules, (id, savedSchedules) -> {
             saveStatus.postValue("UPDATED");
-            if (onComplete != null) onComplete.run();
+            if (callback != null) callback.onSaved(id, savedSchedules);
         });
     }
 
-    public void deleteMedicine(Medicine medicine) {
-        repository.deactivateMedicine(medicine.id);
+    public void deleteMedicine(Context context, Medicine medicine) {
+        repository.deactivateMedicine(context, medicine.id);
     }
 
     public void updateImagePath(int medicineId, String imagePath) {

@@ -8,9 +8,27 @@
         android:minSdkVersion="26"
         android:targetSdkVersion="35" />
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <permission
@@ -32,25 +50,42 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/Theme.Medicationreminderapp" >
+
+        <!-- MedicineReceiver - xử lý alarm và boot -->
         <receiver
             android:name="com.example.medication_reminder_app.MedicineReceiver"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="ACTION_MEDICINE_REMINDER" />
+                <action android:name="ACTION_TAKEN" />
+                <action android:name="ACTION_SNOOZE" />
             </intent-filter>
         </receiver>
 
+        <!-- SplashActivity - màn hình khởi động -->
         <activity
-            android:name="com.example.medication_reminder_app.MainActivity"
-            android:exported="true" >
+            android:name="com.example.medication_reminder_app.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MyApplicationMedTech.Splash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- OnboardingActivity -->
+        <activity
+            android:name="com.example.medication_reminder_app.ui.onboarding.OnboardingActivity"
+            android:exported="false" />
+
+        <!-- MainActivity -->
+        <activity
+            android:name="com.example.medication_reminder_app.MainActivity"
+            android:exported="true" />
+
         <!--
         Service for holding metadata. Cannot be instantiated.
         Metadata will be merged from other manifests.
