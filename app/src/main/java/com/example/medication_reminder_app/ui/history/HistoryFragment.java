@@ -14,13 +14,21 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.medication_reminder_app.MedicineReceiver;
 import com.example.medication_reminder_app.R;
+import com.example.medication_reminder_app.data.database.AppDatabase;
 import com.example.medication_reminder_app.data.entity.DateUtils;
 import com.example.medication_reminder_app.data.entity.HistoryLog;
+import com.example.medication_reminder_app.data.entity.Medicine;
 import com.example.medication_reminder_app.data.repository.HistoryRepository;
+import com.example.medication_reminder_app.utils.AlarmUtils;
+import com.example.medication_reminder_app.data.entity.Schedule;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class HistoryFragment extends Fragment {
 
@@ -28,6 +36,7 @@ public class HistoryFragment extends Fragment {
     private HistoryAdapter adapter;
     private TextView tvSelectedDate, tvTakenCount, tvMissedCount, tvCompliance;
     private String selectedDate;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Nullable
     @Override
@@ -73,6 +82,109 @@ public class HistoryFragment extends Fragment {
                     cal.get(Calendar.MONTH),
                     cal.get(Calendar.DAY_OF_MONTH)
             ).show();
+        });
+
+        // Kiểm tra có mở từ thông báo không → hiện dialog xác nhận
+        checkNotificationIntent();
+    }
+
+    private void checkNotificationIntent() {
+        if (getActivity() == null) return;
+
+        android.content.Intent intent = getActivity().getIntent();
+        if (intent == null) return;
+
+        String openTab = intent.getStringExtra("OPEN_TAB");
+        int scheduleId = intent.getIntExtra("SCHEDULE_ID", -1);
+        int medicineId = intent.getIntExtra("MEDICINE_ID", -1);
+
+        if ("history".equals(openTab) && scheduleId != -1 && medicineId != -1) {
+            // Xóa intent để tránh hiện dialog lại khi quay lại tab
+            intent.removeExtra("OPEN_TAB");
+            intent.removeExtra("SCHEDULE_ID");
+            intent.removeExtra("MEDICINE_ID");
+
+            // Lấy tên thuốc rồi hiện dialog
+            executor.execute(() -> {
+                AppDatabase db = AppDatabase.getInstance(requireContext());
+                Medicine medicine = db.medicineDao().getByIdSync(medicineId);
+                if (medicine == null) return;
+
+                requireActivity().runOnUiThread(() ->
+                        showConfirmDialog(scheduleId, medicineId, medicine.name, medicine.dosage));
+            });
+        }
+    }
+
+    private void showConfirmDialog(int scheduleId, int medicineId, String name, String dosage) {
+        if (getContext() == null) return;
+
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Xác nhận uống thuốc")
+                .setMessage("Bạn đã uống " + name + " (" + dosage + ") chưa?")
+                .setCancelable(false) // bắt buộc phải chọn 1 trong 2
+                .setPositiveButton("✅ Đã uống", (dialog, which) -> {
+                    saveTaken(scheduleId, medicineId, name, dosage);
+                })
+                .setNegativeButton("🔔 Nhắc lại sau 10 phút", (dialog, which) -> {
+                    saveSnooze(scheduleId, medicineId, name, dosage);
+                })
+                .show();
+    }
+
+    private void saveTaken(int scheduleId, int medicineId, String name, String dosage) {
+        executor.execute(() -> {
+            AppDatabase db = AppDatabase.getInstance(requireContext());
+            HistoryLog log = new HistoryLog(
+                    scheduleId, medicineId, name, dosage,
+                    System.currentTimeMillis(), HistoryLog.STATUS_TAKEN
+            );
+            db.historyDao().insert(log);
+
+            // Reload lịch sử sau khi lưu
+            requireActivity().runOnUiThread(() -> loadHistory(selectedDate));
+        });
+    }
+
+    private void saveSnooze(int scheduleId, int medicineId, String name, String dosage) {
+        executor.execute(() -> {
+            AppDatabase db = AppDatabase.getInstance(requireContext());
+
+            // Lưu trạng thái SNOOZED
+            HistoryLog log = new HistoryLog(
+                    scheduleId, medicineId, name, dosage,
+                    System.currentTimeMillis(), HistoryLog.STATUS_SNOOZED
+            );
+            db.historyDao().insert(log);
+
+            // Đặt lại alarm sau 10 phút
+            long snoozeTime = System.currentTimeMillis() + 10 * 60 * 1000;
+            android.app.AlarmManager alarmManager = (android.app.AlarmManager)
+                    requireContext().getSystemService(android.content.Context.ALARM_SERVICE);
+            android.content.Intent snoozeIntent = new android.content.Intent(
+                    requireContext(), MedicineReceiver.class);
+            snoozeIntent.putExtra("SCHEDULE_ID", scheduleId);
+            snoozeIntent.putExtra("MEDICINE_ID", medicineId);
+
+            android.app.PendingIntent pendingIntent = android.app.PendingIntent.getBroadcast(
+                    requireContext(), scheduleId + 5000, snoozeIntent,
+                    android.app.PendingIntent.FLAG_UPDATE_CURRENT |
+                            android.app.PendingIntent.FLAG_IMMUTABLE);
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                if (alarmManager.canScheduleExactAlarms()) {
+                    alarmManager.setExactAndAllowWhileIdle(
+                            android.app.AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
+                } else {
+                    alarmManager.setAndAllowWhileIdle(
+                            android.app.AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
+                }
+            } else {
+                alarmManager.setExactAndAllowWhileIdle(
+                        android.app.AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
+            }
+
+            requireActivity().runOnUiThread(() -> loadHistory(selectedDate));
         });
     }
 

@@ -49,7 +49,6 @@ public class MedicineReceiver extends BroadcastReceiver {
             return;
         }
 
-        // Default: Show Notification
         showNotification(context, scheduleId, medicineId);
     }
 
@@ -63,26 +62,33 @@ public class MedicineReceiver extends BroadcastReceiver {
 
             createNotificationChannel(context);
 
-            // Intent for clicking the notification
+            // Bấm vào thông báo → mở app vào tab Lịch sử + truyền thông tin thuốc
             Intent mainIntent = new Intent(context, MainActivity.class);
+            mainIntent.putExtra("OPEN_TAB", "history");
+            mainIntent.putExtra("SCHEDULE_ID", scheduleId);
+            mainIntent.putExtra("MEDICINE_ID", medicineId);
+            mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             PendingIntent mainPendingIntent = PendingIntent.getActivity(
-                    context, scheduleId, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                    context, scheduleId, mainIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-            // Action: Taken
+            // Nút "Đã uống" → chỉ cập nhật DB, không mở app
             Intent takenIntent = new Intent(context, MedicineReceiver.class);
             takenIntent.setAction(ACTION_TAKEN);
             takenIntent.putExtra("SCHEDULE_ID", scheduleId);
             takenIntent.putExtra("MEDICINE_ID", medicineId);
             PendingIntent takenPendingIntent = PendingIntent.getBroadcast(
-                    context, scheduleId + 1000, takenIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                    context, scheduleId + 1000, takenIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-            // Action: Snooze
+            // Nút "Nhắc lại" → chỉ snooze, không mở app
             Intent snoozeIntent = new Intent(context, MedicineReceiver.class);
             snoozeIntent.setAction(ACTION_SNOOZE);
             snoozeIntent.putExtra("SCHEDULE_ID", scheduleId);
             snoozeIntent.putExtra("MEDICINE_ID", medicineId);
             PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(
-                    context, scheduleId + 2000, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                    context, scheduleId + 2000, snoozeIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                     .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
@@ -91,20 +97,23 @@ public class MedicineReceiver extends BroadcastReceiver {
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_ALARM)
                     .setAutoCancel(true)
+                    .setOngoing(false)
                     .setContentIntent(mainPendingIntent)
                     .addAction(android.R.drawable.ic_menu_save, "Đã uống", takenPendingIntent)
                     .addAction(android.R.drawable.ic_menu_recent_history, "Nhắc lại", snoozePendingIntent);
 
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager)
+                    context.getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(scheduleId, builder.build());
 
-            // Reschedule for next day
             AlarmUtils.setAlarm(context, schedule);
         });
     }
 
     private void handleTakenAction(Context context, int scheduleId, int medicineId) {
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        // Xóa thông báo, KHÔNG mở app
+        NotificationManager notificationManager = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(scheduleId);
 
         executor.execute(() -> {
@@ -112,12 +121,8 @@ public class MedicineReceiver extends BroadcastReceiver {
             Medicine medicine = db.medicineDao().getByIdSync(medicineId);
             if (medicine != null) {
                 HistoryLog log = new HistoryLog(
-                        scheduleId,
-                        medicineId,
-                        medicine.name,
-                        medicine.dosage,
-                        System.currentTimeMillis(),
-                        HistoryLog.STATUS_TAKEN
+                        scheduleId, medicineId, medicine.name, medicine.dosage,
+                        System.currentTimeMillis(), HistoryLog.STATUS_TAKEN
                 );
                 db.historyDao().insert(log);
                 Log.d("MedicineReceiver", "Marked as TAKEN for medicine " + medicineId);
@@ -126,54 +131,49 @@ public class MedicineReceiver extends BroadcastReceiver {
     }
 
     private void handleSnoozeAction(Context context, int scheduleId, int medicineId) {
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        // Xóa thông báo, KHÔNG mở app
+        NotificationManager notificationManager = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(scheduleId);
 
-        // Snooze for 10 minutes
         executor.execute(() -> {
             AppDatabase db = AppDatabase.getInstance(context);
             Schedule schedule = db.scheduleDao().getByIdSync(scheduleId);
             if (schedule != null) {
-                // Temporary schedule for snooze
                 long snoozeTime = System.currentTimeMillis() + 10 * 60 * 1000;
-                
-                // We use AlarmManager directly for snooze to not interfere with the regular schedule
-                android.app.AlarmManager alarmManager = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+                android.app.AlarmManager alarmManager = (android.app.AlarmManager)
+                        context.getSystemService(Context.ALARM_SERVICE);
                 Intent intent = new Intent(context, MedicineReceiver.class);
                 intent.putExtra("SCHEDULE_ID", scheduleId);
                 intent.putExtra("MEDICINE_ID", medicineId);
-                
+
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                        context,
-                        scheduleId + 5000, // Unique ID for snooze
-                        intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-                );
+                        context, scheduleId + 5000, intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     if (alarmManager.canScheduleExactAlarms()) {
-                        alarmManager.setExactAndAllowWhileIdle(android.app.AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
+                        alarmManager.setExactAndAllowWhileIdle(
+                                android.app.AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
                     } else {
-                        alarmManager.setAndAllowWhileIdle(android.app.AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
+                        alarmManager.setAndAllowWhileIdle(
+                                android.app.AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
                     }
                 } else {
-                    alarmManager.setExactAndAllowWhileIdle(android.app.AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
+                    alarmManager.setExactAndAllowWhileIdle(
+                            android.app.AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
                 }
 
-                // Log as SNOOZED
                 Medicine medicine = db.medicineDao().getByIdSync(medicineId);
                 if (medicine != null) {
                     HistoryLog log = new HistoryLog(
-                            scheduleId,
-                            medicineId,
-                            medicine.name,
-                            medicine.dosage,
-                            System.currentTimeMillis(),
-                            HistoryLog.STATUS_SNOOZED
+                            scheduleId, medicineId, medicine.name, medicine.dosage,
+                            System.currentTimeMillis(), HistoryLog.STATUS_SNOOZED
                     );
                     db.historyDao().insert(log);
                 }
-                Log.d("MedicineReceiver", "Snoozed for 10 minutes for schedule " + scheduleId);
+                Log.d("MedicineReceiver", "Snoozed 10 minutes for schedule " + scheduleId);
             }
         });
     }
@@ -195,7 +195,6 @@ public class MedicineReceiver extends BroadcastReceiver {
         int importance = NotificationManager.IMPORTANCE_HIGH;
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
         channel.setDescription(description);
-
         NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
     }

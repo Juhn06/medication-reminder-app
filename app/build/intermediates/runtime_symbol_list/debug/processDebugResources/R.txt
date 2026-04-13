@@ -3727,12 +3727,9 @@ int id tvScheduledTime 0x7f08024e
 int id tvSelectedDate 0x7f08024f
 int id tvStatus 0x7f080250
 int id tvStatusIcon 0x7f080251
-int id tvStepAdvice 0x7f080241
-int id tvStepCount 0x7f080242
 int id tvSteps 0x7f080217
 int id tvTakenCount 0x7f080252
 int id tvTemp 0x7f080218
-int id tvTemperature 0x7f080243
 int id tvWarning 0x7f080219
 int id tv_detail_dosage 0x7f08021a
 int id tv_detail_name 0x7f08021b
@@ -3886,7 +3883,6 @@ int layout abc_select_dialog_material 0x7f0b001a
 int layout abc_tooltip 0x7f0b001b
 int layout activity_main 0x7f0b001c
 int layout activity_onboarding 0x7f0b001d
-int layout activity_sensor 0x7f0b001e
 int layout activity_splash 0x7f0b001f
 int layout custom_dialog 0x7f0b0020
 int layout design_bottom_navigation_item 0x7f0b0021

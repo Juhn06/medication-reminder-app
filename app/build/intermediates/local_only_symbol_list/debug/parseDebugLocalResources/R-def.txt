@@ -92,12 +92,9 @@ id tvScheduledTime
 id tvSelectedDate
 id tvStatus
 id tvStatusIcon
-id tvStepAdvice
-id tvStepCount
 id tvSteps
 id tvTakenCount
 id tvTemp
-id tvTemperature
 id tvWarning
 id tv_detail_dosage
 id tv_detail_name
@@ -112,7 +109,6 @@ id txtOnboardingDescription
 id txtOnboardingTitle
 layout activity_main
 layout activity_onboarding
-layout activity_sensor
 layout activity_splash
 layout fragment_add_edit_medicine
 layout fragment_history

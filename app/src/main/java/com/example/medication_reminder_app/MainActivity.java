@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.medication_reminder_app.ui.sensor.SensorFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,5 +46,30 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        // Xử lý khi mở app từ thông báo → chuyển sang tab Lịch sử
+        String openTab = getIntent().getStringExtra("OPEN_TAB");
+        if ("history".equals(openTab)) {
+            navController.navigate(R.id.historyFragment);
+            bottomNav.setSelectedItemId(R.id.nav_history);
+        }
+    }
+
+    // Xử lý khi app đang chạy mà nhận intent mới từ thông báo
+    @Override
+    protected void onNewIntent(android.content.Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_container);
+        NavController navController = navHostFragment.getNavController();
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+
+        String openTab = intent.getStringExtra("OPEN_TAB");
+        if ("history".equals(openTab)) {
+            navController.navigate(R.id.historyFragment);
+            bottomNav.setSelectedItemId(R.id.nav_history);
+        }
     }
 }
