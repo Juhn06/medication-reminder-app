@@ -12,6 +12,7 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 
 import com.example.medication_reminder_app.data.database.AppDatabase;
+import com.example.medication_reminder_app.data.entity.DateUtils;
 import com.example.medication_reminder_app.data.entity.HistoryLog;
 import com.example.medication_reminder_app.data.entity.Medicine;
 import com.example.medication_reminder_app.data.entity.Schedule;
@@ -26,6 +27,7 @@ public class MedicineReceiver extends BroadcastReceiver {
     private static final String CHANNEL_ID = "MEDICINE_REMINDER_CHANNEL";
     private static final String ACTION_TAKEN = "ACTION_TAKEN";
     private static final String ACTION_SNOOZE = "ACTION_SNOOZE";
+    private static final String ACTION_CHECK_MISSED = "ACTION_CHECK_MISSED";
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Override
@@ -46,6 +48,11 @@ public class MedicineReceiver extends BroadcastReceiver {
 
         if (ACTION_SNOOZE.equals(action)) {
             handleSnoozeAction(context, scheduleId, medicineId);
+            return;
+        }
+
+        if (ACTION_CHECK_MISSED.equals(action)) {
+            handleCheckMissed(context, scheduleId, medicineId);
             return;
         }
 
@@ -111,69 +118,140 @@ public class MedicineReceiver extends BroadcastReceiver {
     }
 
     private void handleTakenAction(Context context, int scheduleId, int medicineId) {
-        // Xóa thông báo, KHÔNG mở app
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(scheduleId);
 
         executor.execute(() -> {
             AppDatabase db = AppDatabase.getInstance(context);
-            Medicine medicine = db.medicineDao().getByIdSync(medicineId);
-            if (medicine != null) {
-                HistoryLog log = new HistoryLog(
-                        scheduleId, medicineId, medicine.name, medicine.dosage,
-                        System.currentTimeMillis(), HistoryLog.STATUS_TAKEN
-                );
-                db.historyDao().insert(log);
-                Log.d("MedicineReceiver", "Marked as TAKEN for medicine " + medicineId);
-            }
-        });
-    }
+            String today = DateUtils.toDateString(System.currentTimeMillis());
+            long now = System.currentTimeMillis();
 
-    private void handleSnoozeAction(Context context, int scheduleId, int medicineId) {
-        // Xóa thông báo, KHÔNG mở app
-        NotificationManager notificationManager = (NotificationManager)
-                context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(scheduleId);
-
-        executor.execute(() -> {
-            AppDatabase db = AppDatabase.getInstance(context);
-            Schedule schedule = db.scheduleDao().getByIdSync(scheduleId);
-            if (schedule != null) {
-                long snoozeTime = System.currentTimeMillis() + 10 * 60 * 1000;
-
-                android.app.AlarmManager alarmManager = (android.app.AlarmManager)
-                        context.getSystemService(Context.ALARM_SERVICE);
-                Intent intent = new Intent(context, MedicineReceiver.class);
-                intent.putExtra("SCHEDULE_ID", scheduleId);
-                intent.putExtra("MEDICINE_ID", medicineId);
-
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                        context, scheduleId + 5000, intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    if (alarmManager.canScheduleExactAlarms()) {
-                        alarmManager.setExactAndAllowWhileIdle(
-                                android.app.AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
-                    } else {
-                        alarmManager.setAndAllowWhileIdle(
-                                android.app.AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
-                    }
-                } else {
-                    alarmManager.setExactAndAllowWhileIdle(
-                            android.app.AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
-                }
-
+            // Kiểm tra đã có log chưa
+            HistoryLog existing = db.historyDao().getByScheduleAndDate(scheduleId, today);
+            if (existing != null) {
+                // Cập nhật log cũ thành TAKEN
+                db.historyDao().updateStatus(existing.id, HistoryLog.STATUS_TAKEN, now);
+            } else {
+                // Tạo log mới
                 Medicine medicine = db.medicineDao().getByIdSync(medicineId);
                 if (medicine != null) {
                     HistoryLog log = new HistoryLog(
                             scheduleId, medicineId, medicine.name, medicine.dosage,
-                            System.currentTimeMillis(), HistoryLog.STATUS_SNOOZED
+                            now, HistoryLog.STATUS_TAKEN
                     );
                     db.historyDao().insert(log);
                 }
-                Log.d("MedicineReceiver", "Snoozed 10 minutes for schedule " + scheduleId);
+            }
+            Log.d("MedicineReceiver", "Marked as TAKEN for schedule " + scheduleId);
+        });
+    }
+
+    private void handleSnoozeAction(Context context, int scheduleId, int medicineId) {
+        NotificationManager notificationManager = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(scheduleId);
+
+        executor.execute(() -> {
+            AppDatabase db = AppDatabase.getInstance(context);
+            String today = DateUtils.toDateString(System.currentTimeMillis());
+            long now = System.currentTimeMillis();
+
+            // Kiểm tra đã có log chưa
+            HistoryLog existing = db.historyDao().getByScheduleAndDate(scheduleId, today);
+            if (existing == null) {
+                // Tạo log mới SNOOZED với snooze_first_time = now
+                Medicine medicine = db.medicineDao().getByIdSync(medicineId);
+                if (medicine != null) {
+                    HistoryLog log = new HistoryLog(
+                            scheduleId, medicineId, medicine.name, medicine.dosage,
+                            now, HistoryLog.STATUS_SNOOZED
+                    );
+                    log.snoozeFirstTime = now;
+                    db.historyDao().insert(log);
+                }
+            } else if (!existing.isTaken()) {
+                // Cập nhật status SNOOZED, giữ snooze_first_time đầu tiên
+                db.historyDao().updateStatus(existing.id, HistoryLog.STATUS_SNOOZED, 0);
+                db.historyDao().setSnoozeFirstTime(existing.id, now);
+            }
+
+            // Đặt alarm nhắc lại sau 10 phút
+            long snoozeTime = now + 10 * 60 * 1000;
+            android.app.AlarmManager alarmManager = (android.app.AlarmManager)
+                    context.getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(context, MedicineReceiver.class);
+            intent.setAction("ACTION_MEDICINE_REMINDER");
+            intent.putExtra("SCHEDULE_ID", scheduleId);
+            intent.putExtra("MEDICINE_ID", medicineId);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    context, scheduleId + 5000, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (alarmManager.canScheduleExactAlarms()) {
+                    alarmManager.setExactAndAllowWhileIdle(
+                            android.app.AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
+                } else {
+                    alarmManager.setAndAllowWhileIdle(
+                            android.app.AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
+                }
+            } else {
+                alarmManager.setExactAndAllowWhileIdle(
+                        android.app.AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
+            }
+
+            // Đặt alarm check MISSED sau 2 tiếng (chỉ lần snooze đầu tiên)
+            if (existing == null || existing.snoozeFirstTime == 0) {
+                scheduleMissedCheck(context, scheduleId, medicineId, now);
+            }
+
+            Log.d("MedicineReceiver", "Snoozed 10 minutes for schedule " + scheduleId);
+        });
+    }
+
+    private void scheduleMissedCheck(Context context, int scheduleId, int medicineId, long snoozeFirstTime) {
+        long missedDeadline = snoozeFirstTime + 2 * 60 * 60 * 1000; // 2 tiếng
+
+        android.app.AlarmManager alarmManager = (android.app.AlarmManager)
+                context.getSystemService(Context.ALARM_SERVICE);
+
+        Intent missedIntent = new Intent(context, MedicineReceiver.class);
+        missedIntent.setAction(ACTION_CHECK_MISSED);
+        missedIntent.putExtra("SCHEDULE_ID", scheduleId);
+        missedIntent.putExtra("MEDICINE_ID", medicineId);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                context, scheduleId + 9000, missedIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (alarmManager.canScheduleExactAlarms()) {
+                alarmManager.setExactAndAllowWhileIdle(
+                        android.app.AlarmManager.RTC_WAKEUP, missedDeadline, pendingIntent);
+            } else {
+                alarmManager.setAndAllowWhileIdle(
+                        android.app.AlarmManager.RTC_WAKEUP, missedDeadline, pendingIntent);
+            }
+        } else {
+            alarmManager.setExactAndAllowWhileIdle(
+                    android.app.AlarmManager.RTC_WAKEUP, missedDeadline, pendingIntent);
+        }
+
+        Log.d("MedicineReceiver", "Scheduled MISSED check at " + missedDeadline);
+    }
+
+    private void handleCheckMissed(Context context, int scheduleId, int medicineId) {
+        executor.execute(() -> {
+            AppDatabase db = AppDatabase.getInstance(context);
+            String today = DateUtils.toDateString(System.currentTimeMillis());
+            HistoryLog log = db.historyDao().getByScheduleAndDate(scheduleId, today);
+
+            if (log != null && log.isSnoozed()) {
+                // Vẫn còn SNOOZED sau 2 tiếng → đánh dấu MISSED
+                db.historyDao().updateStatus(log.id, HistoryLog.STATUS_MISSED, 0);
+                Log.d("MedicineReceiver", "Auto marked MISSED for schedule " + scheduleId);
             }
         });
     }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -23,13 +24,18 @@ public class SplashActivity extends AppCompatActivity {
         applySavedTheme();
         SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash); // ← hiện layout đầy đủ
 
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        boolean isOnboardingDone = prefs.getBoolean(KEY_ONBOARDING_DONE, false);
+        // Delay 2 giây rồi chuyển màn hình
+        new Handler().postDelayed(() -> {
+            SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+            boolean isOnboardingDone = prefs.getBoolean(KEY_ONBOARDING_DONE, false);
 
-        Intent nextIntent = new Intent(this, isOnboardingDone ? MainActivity.class : OnboardingActivity.class);
-        startActivity(nextIntent);
-        finish();
+            Intent nextIntent = new Intent(this,
+                    isOnboardingDone ? MainActivity.class : OnboardingActivity.class);
+            startActivity(nextIntent);
+            finish();
+        }, 2000);
     }
 
     private void applySavedTheme() {

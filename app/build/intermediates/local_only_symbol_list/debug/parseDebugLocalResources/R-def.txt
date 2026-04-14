@@ -81,7 +81,6 @@ id startButton
 id stepTextView
 id tabIndicator
 id toolbar
-id tvAccel
 id tvCompliance
 id tvHumidity
 id tvLight
@@ -92,10 +91,11 @@ id tvScheduledTime
 id tvSelectedDate
 id tvStatus
 id tvStatusIcon
+id tvStepAdvice
 id tvSteps
 id tvTakenCount
 id tvTemp
-id tvWarning
+id tvWeatherAdvice
 id tv_detail_dosage
 id tv_detail_name
 id tv_detail_notes

@@ -1,6 +1,5 @@
 package com.example.medication_reminder_app.ui.adapter;
 
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.medication_reminder_app.R;
 import com.example.medication_reminder_app.data.entity.Medicine;
 
@@ -66,16 +66,25 @@ public class MedicineAdapter extends ListAdapter<Medicine, MedicineAdapter.ViewH
             tvDosage.setText(medicine.dosage);
             tvTimes.setText(medicine.timesPerDay + " lần/ngày");
 
-            // Hiển thị ảnh nếu có
+            // Load ảnh bằng Glide → không lag
             if (medicine.imagePath != null && !medicine.imagePath.isEmpty()) {
                 File imgFile = new File(medicine.imagePath);
                 if (imgFile.exists()) {
-                    imgMedicine.setImageURI(Uri.fromFile(imgFile));
+                    Glide.with(itemView.getContext())
+                            .load(imgFile)
+                            .placeholder(R.drawable.ic_medicine_placeholder)
+                            .error(R.drawable.ic_medicine_placeholder)
+                            .centerCrop()
+                            .into(imgMedicine);
                 } else {
-                    imgMedicine.setImageResource(R.drawable.ic_medicine_placeholder);
+                    Glide.with(itemView.getContext())
+                            .load(R.drawable.ic_medicine_placeholder)
+                            .into(imgMedicine);
                 }
             } else {
-                imgMedicine.setImageResource(R.drawable.ic_medicine_placeholder);
+                Glide.with(itemView.getContext())
+                        .load(R.drawable.ic_medicine_placeholder)
+                        .into(imgMedicine);
             }
 
             itemView.setOnClickListener(v -> {
@@ -98,7 +107,7 @@ public class MedicineAdapter extends ListAdapter<Medicine, MedicineAdapter.ViewH
                             && a.timesPerDay == b.timesPerDay
                             && a.isActive == b.isActive
                             && (a.imagePath == null ? b.imagePath == null
-                                : a.imagePath.equals(b.imagePath));
+                            : a.imagePath.equals(b.imagePath));
                 }
             };
 }

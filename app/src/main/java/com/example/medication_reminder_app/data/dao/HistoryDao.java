@@ -65,4 +65,17 @@ public interface HistoryDao {
     @Query("SELECT COUNT(*) FROM history_logs " +
             "WHERE scheduled_date BETWEEN :fromDate AND :toDate")
     int getTotalCountSync(String fromDate, String toDate);
+
+    // ← THÊM MỚI: lấy log theo scheduleId và date dạng sync
+    @Query("SELECT * FROM history_logs WHERE schedule_id = :scheduleId AND scheduled_date = :date LIMIT 1")
+    HistoryLog getByScheduleAndDateSync(int scheduleId, String date);
+
+    // ← THÊM MỚI: lấy các log SNOOZED đã quá 2 tiếng
+    @Query("SELECT * FROM history_logs WHERE status = 'SNOOZED' " +
+            "AND snooze_first_time > 0 AND snooze_first_time <= :deadline")
+    List<HistoryLog> getExpiredSnoozedLogs(long deadline);
+
+    // ← THÊM MỚI: set snooze_first_time lần đầu (chỉ set nếu chưa có)
+    @Query("UPDATE history_logs SET snooze_first_time = :time WHERE id = :logId AND snooze_first_time = 0")
+    void setSnoozeFirstTime(int logId, long time);
 }

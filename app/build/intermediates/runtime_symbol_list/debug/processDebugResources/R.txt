@@ -3716,7 +3716,6 @@ int id transition_position 0x7f080210
 int id transition_scene_layoutid_cache 0x7f080211
 int id transition_transform 0x7f080212
 int id triangle 0x7f080213
-int id tvAccel 0x7f080214
 int id tvCompliance 0x7f08024b
 int id tvHumidity 0x7f080215
 int id tvLight 0x7f080216
@@ -3727,10 +3726,11 @@ int id tvScheduledTime 0x7f08024e
 int id tvSelectedDate 0x7f08024f
 int id tvStatus 0x7f080250
 int id tvStatusIcon 0x7f080251
+int id tvStepAdvice 0x7f080241
 int id tvSteps 0x7f080217
 int id tvTakenCount 0x7f080252
 int id tvTemp 0x7f080218
-int id tvWarning 0x7f080219
+int id tvWeatherAdvice 0x7f080253
 int id tv_detail_dosage 0x7f08021a
 int id tv_detail_name 0x7f08021b
 int id tv_detail_notes 0x7f08021c

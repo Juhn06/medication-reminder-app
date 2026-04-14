@@ -44,18 +44,18 @@ public final class AppDatabase_Impl extends AppDatabase {
   @Override
   @NonNull
   protected SupportSQLiteOpenHelper createOpenHelper(@NonNull final DatabaseConfiguration config) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(1) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(2) {
       @Override
       public void createAllTables(@NonNull final SupportSQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS `medicines` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `dosage` TEXT, `times_per_day` INTEGER NOT NULL, `notes` TEXT, `image_path` TEXT, `created_at` INTEGER NOT NULL, `is_active` INTEGER NOT NULL)");
         db.execSQL("CREATE TABLE IF NOT EXISTS `schedules` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `medicine_id` INTEGER NOT NULL, `time_hour` INTEGER NOT NULL, `time_minute` INTEGER NOT NULL, `is_active` INTEGER NOT NULL, `created_at` INTEGER NOT NULL, FOREIGN KEY(`medicine_id`) REFERENCES `medicines`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_schedules_medicine_id` ON `schedules` (`medicine_id`)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS `history_logs` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `medicine_id` INTEGER, `medicine_name` TEXT, `medicine_dosage` TEXT, `schedule_id` INTEGER NOT NULL, `scheduled_time` INTEGER NOT NULL, `scheduled_date` TEXT, `taken_time` INTEGER NOT NULL, `status` TEXT, `note` TEXT, FOREIGN KEY(`medicine_id`) REFERENCES `medicines`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `history_logs` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `medicine_id` INTEGER, `medicine_name` TEXT, `medicine_dosage` TEXT, `schedule_id` INTEGER NOT NULL, `scheduled_time` INTEGER NOT NULL, `scheduled_date` TEXT, `taken_time` INTEGER NOT NULL, `status` TEXT, `note` TEXT, `snooze_first_time` INTEGER NOT NULL DEFAULT 0, FOREIGN KEY(`medicine_id`) REFERENCES `medicines`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_history_logs_medicine_id` ON `history_logs` (`medicine_id`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_history_logs_scheduled_date` ON `history_logs` (`scheduled_date`)");
         db.execSQL("CREATE TABLE IF NOT EXISTS `relatives` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `phone` TEXT, `fcm_token` TEXT, `created_at` INTEGER NOT NULL)");
         db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '76dec7bee4d198204d3e8d5eb6bf3e5a')");
+        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '222311dedf4d4b460ac3ab1431743cf9')");
       }
 
       @Override
@@ -144,7 +144,7 @@ public final class AppDatabase_Impl extends AppDatabase {
                   + " Expected:\n" + _infoSchedules + "\n"
                   + " Found:\n" + _existingSchedules);
         }
-        final HashMap<String, TableInfo.Column> _columnsHistoryLogs = new HashMap<String, TableInfo.Column>(10);
+        final HashMap<String, TableInfo.Column> _columnsHistoryLogs = new HashMap<String, TableInfo.Column>(11);
         _columnsHistoryLogs.put("id", new TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsHistoryLogs.put("medicine_id", new TableInfo.Column("medicine_id", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsHistoryLogs.put("medicine_name", new TableInfo.Column("medicine_name", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -155,6 +155,7 @@ public final class AppDatabase_Impl extends AppDatabase {
         _columnsHistoryLogs.put("taken_time", new TableInfo.Column("taken_time", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsHistoryLogs.put("status", new TableInfo.Column("status", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsHistoryLogs.put("note", new TableInfo.Column("note", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsHistoryLogs.put("snooze_first_time", new TableInfo.Column("snooze_first_time", "INTEGER", true, 0, "0", TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysHistoryLogs = new HashSet<TableInfo.ForeignKey>(1);
         _foreignKeysHistoryLogs.add(new TableInfo.ForeignKey("medicines", "SET NULL", "NO ACTION", Arrays.asList("medicine_id"), Arrays.asList("id")));
         final HashSet<TableInfo.Index> _indicesHistoryLogs = new HashSet<TableInfo.Index>(2);
@@ -184,7 +185,7 @@ public final class AppDatabase_Impl extends AppDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "76dec7bee4d198204d3e8d5eb6bf3e5a", "e2416006d6d178c162565137b6f90201");
+    }, "222311dedf4d4b460ac3ab1431743cf9", "c250dccb418234195c3c811d5a95ddad");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(config.context).name(config.name).callback(_openCallback).build();
     final SupportSQLiteOpenHelper _helper = config.sqliteOpenHelperFactory.create(_sqliteConfig);
     return _helper;

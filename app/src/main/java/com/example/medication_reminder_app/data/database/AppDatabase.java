@@ -22,7 +22,7 @@ import com.example.medication_reminder_app.data.entity.Schedule;
                 HistoryLog.class,
                 Relative.class
         },
-        version = 1,
+        version = 2,
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {

@@ -57,6 +57,9 @@ public class HistoryLog {
     @ColumnInfo(name = "note")
     public String note;
 
+    @ColumnInfo(name = "snooze_first_time", defaultValue = "0")
+    public long snoozeFirstTime; // thời điểm snooze đầu tiên, 0 nếu chưa snooze
+
     public HistoryLog(int scheduleId, Integer medicineId, String medicineName,
                       String medicineDosage, long scheduledTime, String status) {
         this.scheduleId = scheduleId;
@@ -67,6 +70,7 @@ public class HistoryLog {
         this.scheduledDate = DateUtils.toDateString(scheduledTime);
         this.status = status;
         this.takenTime = STATUS_TAKEN.equals(status) ? System.currentTimeMillis() : 0;
+        this.snoozeFirstTime = 0;
     }
 
     public boolean isTaken()   { return STATUS_TAKEN.equals(status); }
