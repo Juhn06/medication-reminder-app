@@ -104,6 +104,10 @@
         "source": "C:\\Users\\Xuan\\.gradle\\daemon\\9.1.0\\com.example.medication_reminder_app-main-60:\\layout\\activity_main.xml"
     },
     {
+        "merged": "com.example.medication_reminder_app-debug-58:/layout_activity_onboarding.xml.flat",
+        "source": "com.example.medication_reminder_app-main-60:/layout/activity_onboarding.xml"
+    },
+    {
         "merged": "C:\\Users\\Xuan\\.gradle\\daemon\\9.1.0\\com.example.medication_reminder_app-debug-58:\\anim_slide_in_right.xml.flat",
         "source": "C:\\Users\\Xuan\\.gradle\\daemon\\9.1.0\\com.example.medication_reminder_app-main-60:\\anim\\slide_in_right.xml"
     },
@@ -114,10 +118,6 @@
     {
         "merged": "C:\\Users\\Xuan\\.gradle\\daemon\\9.1.0\\com.example.medication_reminder_app-debug-58:\\layout_activity_onboarding.xml.flat",
         "source": "C:\\Users\\Xuan\\.gradle\\daemon\\9.1.0\\com.example.medication_reminder_app-main-60:\\layout\\activity_onboarding.xml"
-    },
-    {
-        "merged": "com.example.medication_reminder_app-debug-58:/layout_fragment_sensor.xml.flat",
-        "source": "com.example.medication_reminder_app-main-60:/layout/fragment_sensor.xml"
     },
     {
         "merged": "C:\\Users\\Xuan\\.gradle\\daemon\\9.1.0\\com.example.medication_reminder_app-debug-58:\\drawable_ic_medicine_placeholder.xml.flat",

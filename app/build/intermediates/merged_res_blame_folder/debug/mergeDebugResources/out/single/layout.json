@@ -28,16 +28,16 @@
         "source": "C:\\Users\\Xuan\\.gradle\\daemon\\9.1.0\\com.example.medication_reminder_app-main-60:\\layout\\activity_splash.xml"
     },
     {
-        "merged": "com.example.medication_reminder_app-mergeDebugResources-57:/layout/fragment_sensor.xml",
-        "source": "com.example.medication_reminder_app-main-60:/layout/fragment_sensor.xml"
-    },
-    {
         "merged": "C:\\Users\\Xuan\\.gradle\\daemon\\9.1.0\\com.example.medication_reminder_app-mergeDebugResources-57:\\layout\\activity_sensor.xml",
         "source": "C:\\Users\\Xuan\\.gradle\\daemon\\9.1.0\\com.example.medication_reminder_app-main-60:\\layout\\activity_sensor.xml"
     },
     {
         "merged": "C:\\Users\\Xuan\\.gradle\\daemon\\9.1.0\\com.example.medication_reminder_app-mergeDebugResources-57:\\layout\\activity_main.xml",
         "source": "C:\\Users\\Xuan\\.gradle\\daemon\\9.1.0\\com.example.medication_reminder_app-main-60:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "com.example.medication_reminder_app-mergeDebugResources-57:/layout/activity_onboarding.xml",
+        "source": "com.example.medication_reminder_app-main-60:/layout/activity_onboarding.xml"
     },
     {
         "merged": "C:\\Users\\Xuan\\.gradle\\daemon\\9.1.0\\com.example.medication_reminder_app-mergeDebugResources-57:\\layout\\item_schedule.xml",

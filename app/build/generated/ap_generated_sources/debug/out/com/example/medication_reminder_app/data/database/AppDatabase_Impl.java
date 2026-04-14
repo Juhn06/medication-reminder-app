@@ -15,8 +15,6 @@ import com.example.medication_reminder_app.data.dao.HistoryDao;
 import com.example.medication_reminder_app.data.dao.HistoryDao_Impl;
 import com.example.medication_reminder_app.data.dao.MedicineDao;
 import com.example.medication_reminder_app.data.dao.MedicineDao_Impl;
-import com.example.medication_reminder_app.data.dao.RelativeDao;
-import com.example.medication_reminder_app.data.dao.RelativeDao_Impl;
 import com.example.medication_reminder_app.data.dao.ScheduleDao;
 import com.example.medication_reminder_app.data.dao.ScheduleDao_Impl;
 import java.lang.Class;
@@ -39,12 +37,10 @@ public final class AppDatabase_Impl extends AppDatabase {
 
   private volatile HistoryDao _historyDao;
 
-  private volatile RelativeDao _relativeDao;
-
   @Override
   @NonNull
   protected SupportSQLiteOpenHelper createOpenHelper(@NonNull final DatabaseConfiguration config) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(2) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(3) {
       @Override
       public void createAllTables(@NonNull final SupportSQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS `medicines` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `dosage` TEXT, `times_per_day` INTEGER NOT NULL, `notes` TEXT, `image_path` TEXT, `created_at` INTEGER NOT NULL, `is_active` INTEGER NOT NULL)");
@@ -53,9 +49,8 @@ public final class AppDatabase_Impl extends AppDatabase {
         db.execSQL("CREATE TABLE IF NOT EXISTS `history_logs` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `medicine_id` INTEGER, `medicine_name` TEXT, `medicine_dosage` TEXT, `schedule_id` INTEGER NOT NULL, `scheduled_time` INTEGER NOT NULL, `scheduled_date` TEXT, `taken_time` INTEGER NOT NULL, `status` TEXT, `note` TEXT, `snooze_first_time` INTEGER NOT NULL DEFAULT 0, FOREIGN KEY(`medicine_id`) REFERENCES `medicines`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_history_logs_medicine_id` ON `history_logs` (`medicine_id`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_history_logs_scheduled_date` ON `history_logs` (`scheduled_date`)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS `relatives` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `phone` TEXT, `fcm_token` TEXT, `created_at` INTEGER NOT NULL)");
         db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '222311dedf4d4b460ac3ab1431743cf9')");
+        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6837ede1bad9ae218afd43a34079dc31')");
       }
 
       @Override
@@ -63,7 +58,6 @@ public final class AppDatabase_Impl extends AppDatabase {
         db.execSQL("DROP TABLE IF EXISTS `medicines`");
         db.execSQL("DROP TABLE IF EXISTS `schedules`");
         db.execSQL("DROP TABLE IF EXISTS `history_logs`");
-        db.execSQL("DROP TABLE IF EXISTS `relatives`");
         final List<? extends RoomDatabase.Callback> _callbacks = mCallbacks;
         if (_callbacks != null) {
           for (RoomDatabase.Callback _callback : _callbacks) {
@@ -168,24 +162,9 @@ public final class AppDatabase_Impl extends AppDatabase {
                   + " Expected:\n" + _infoHistoryLogs + "\n"
                   + " Found:\n" + _existingHistoryLogs);
         }
-        final HashMap<String, TableInfo.Column> _columnsRelatives = new HashMap<String, TableInfo.Column>(5);
-        _columnsRelatives.put("id", new TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsRelatives.put("name", new TableInfo.Column("name", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsRelatives.put("phone", new TableInfo.Column("phone", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsRelatives.put("fcm_token", new TableInfo.Column("fcm_token", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsRelatives.put("created_at", new TableInfo.Column("created_at", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        final HashSet<TableInfo.ForeignKey> _foreignKeysRelatives = new HashSet<TableInfo.ForeignKey>(0);
-        final HashSet<TableInfo.Index> _indicesRelatives = new HashSet<TableInfo.Index>(0);
-        final TableInfo _infoRelatives = new TableInfo("relatives", _columnsRelatives, _foreignKeysRelatives, _indicesRelatives);
-        final TableInfo _existingRelatives = TableInfo.read(db, "relatives");
-        if (!_infoRelatives.equals(_existingRelatives)) {
-          return new RoomOpenHelper.ValidationResult(false, "relatives(com.example.medication_reminder_app.data.entity.Relative).\n"
-                  + " Expected:\n" + _infoRelatives + "\n"
-                  + " Found:\n" + _existingRelatives);
-        }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "222311dedf4d4b460ac3ab1431743cf9", "c250dccb418234195c3c811d5a95ddad");
+    }, "6837ede1bad9ae218afd43a34079dc31", "f40bdd6a25b2958052b1726aed4f334b");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(config.context).name(config.name).callback(_openCallback).build();
     final SupportSQLiteOpenHelper _helper = config.sqliteOpenHelperFactory.create(_sqliteConfig);
     return _helper;
@@ -196,7 +175,7 @@ public final class AppDatabase_Impl extends AppDatabase {
   protected InvalidationTracker createInvalidationTracker() {
     final HashMap<String, String> _shadowTablesMap = new HashMap<String, String>(0);
     final HashMap<String, Set<String>> _viewTables = new HashMap<String, Set<String>>(0);
-    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "medicines","schedules","history_logs","relatives");
+    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "medicines","schedules","history_logs");
   }
 
   @Override
@@ -215,7 +194,6 @@ public final class AppDatabase_Impl extends AppDatabase {
       _db.execSQL("DELETE FROM `medicines`");
       _db.execSQL("DELETE FROM `schedules`");
       _db.execSQL("DELETE FROM `history_logs`");
-      _db.execSQL("DELETE FROM `relatives`");
       super.setTransactionSuccessful();
     } finally {
       super.endTransaction();
@@ -236,7 +214,6 @@ public final class AppDatabase_Impl extends AppDatabase {
     _typeConvertersMap.put(MedicineDao.class, MedicineDao_Impl.getRequiredConverters());
     _typeConvertersMap.put(ScheduleDao.class, ScheduleDao_Impl.getRequiredConverters());
     _typeConvertersMap.put(HistoryDao.class, HistoryDao_Impl.getRequiredConverters());
-    _typeConvertersMap.put(RelativeDao.class, RelativeDao_Impl.getRequiredConverters());
     return _typeConvertersMap;
   }
 
@@ -293,20 +270,6 @@ public final class AppDatabase_Impl extends AppDatabase {
           _historyDao = new HistoryDao_Impl(this);
         }
         return _historyDao;
-      }
-    }
-  }
-
-  @Override
-  public RelativeDao relativeDao() {
-    if (_relativeDao != null) {
-      return _relativeDao;
-    } else {
-      synchronized(this) {
-        if(_relativeDao == null) {
-          _relativeDao = new RelativeDao_Impl(this);
-        }
-        return _relativeDao;
       }
     }
   }

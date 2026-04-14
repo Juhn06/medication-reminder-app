@@ -8,21 +8,18 @@ import androidx.room.RoomDatabase;
 
 import com.example.medication_reminder_app.data.dao.HistoryDao;
 import com.example.medication_reminder_app.data.dao.MedicineDao;
-import com.example.medication_reminder_app.data.dao.RelativeDao;
 import com.example.medication_reminder_app.data.dao.ScheduleDao;
 import com.example.medication_reminder_app.data.entity.HistoryLog;
 import com.example.medication_reminder_app.data.entity.Medicine;
-import com.example.medication_reminder_app.data.entity.Relative;
 import com.example.medication_reminder_app.data.entity.Schedule;
 
 @Database(
         entities = {
                 Medicine.class,
                 Schedule.class,
-                HistoryLog.class,
-                Relative.class
+                HistoryLog.class
         },
-        version = 2,
+        version = 3,
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -33,7 +30,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract MedicineDao medicineDao();
     public abstract ScheduleDao scheduleDao();
     public abstract HistoryDao  historyDao();
-    public abstract RelativeDao relativeDao();
 
     public static AppDatabase getInstance(Context context) {
         if (INSTANCE == null) {

@@ -79,7 +79,6 @@ id splash_subtitle
 id splash_title
 id startButton
 id stepTextView
-id tabIndicator
 id toolbar
 id tvCompliance
 id tvHumidity
