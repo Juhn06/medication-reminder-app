@@ -1,6 +1,5 @@
 package com.example.medication_reminder_app.ui.onboarding;
 
-
 import com.example.medication_reminder_app.R;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,11 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.medication_reminder_app.MainActivity;
-import com.example.medication_reminder_app.ui.onboarding.OnboardingPage;
-import com.example.medication_reminder_app.ui.onboarding.OnboardingPagerAdapter;
 import com.example.medication_reminder_app.SplashActivity;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,9 +46,9 @@ public class OnboardingActivity extends AppCompatActivity {
 
     private void bindViews() {
         onboardingPager = findViewById(R.id.onboardingPager);
-        skipButton = findViewById(R.id.skipButton);
-        nextButton = findViewById(R.id.nextButton);
-        startButton = findViewById(R.id.startButton);
+        skipButton      = findViewById(R.id.skipButton);
+        nextButton      = findViewById(R.id.nextButton);
+        startButton     = findViewById(R.id.startButton);
     }
 
     private void setupPager() {
@@ -81,11 +76,6 @@ public class OnboardingActivity extends AppCompatActivity {
 
         onboardingPager.setAdapter(new OnboardingPagerAdapter(pages));
 
-        TabLayout tabLayout = findViewById(R.id.tabIndicator);
-        new TabLayoutMediator(tabLayout, onboardingPager, (tab, position) -> {
-            // dots indicator only
-        }).attach();
-
         onboardingPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -99,9 +89,7 @@ public class OnboardingActivity extends AppCompatActivity {
         skipButton.setOnClickListener(v -> completeOnboarding());
 
         nextButton.setOnClickListener(v -> {
-            if (onboardingPager.getAdapter() == null) {
-                return;
-            }
+            if (onboardingPager.getAdapter() == null) return;
             int nextItem = onboardingPager.getCurrentItem() + 1;
             if (nextItem < onboardingPager.getAdapter().getItemCount()) {
                 onboardingPager.setCurrentItem(nextItem, true);
