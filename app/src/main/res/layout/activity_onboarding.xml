@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/medical_bg"
-    tools:context=".OnboardingActivity">
+    tools:context="com.example.medication_reminder_app.ui.onboarding.OnboardingActivity">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/skipButton"
@@ -39,10 +39,15 @@
         app:tabIndicatorAnimationMode="elastic"
         app:tabIndicatorColor="@color/medical_primary"
         app:tabIndicatorGravity="center"
-        app:tabIndicatorHeight="4dp"
+        app:tabIndicatorHeight="8dp"
         app:tabRippleColor="@android:color/transparent"
         app:tabSelectedTextColor="@color/medical_primary"
-        app:tabTextColor="@color/medical_text_secondary" />
+        app:tabTextColor="@color/medical_text_secondary"
+        app:tabBackground="@drawable/tab_selector"
+        app:tabMinWidth="12dp"
+        app:tabMaxWidth="12dp"
+        app:tabPaddingStart="4dp"
+        app:tabPaddingEnd="4dp"/>
 
     <LinearLayout
         android:id="@+id/actionBar"
@@ -75,6 +80,7 @@
             android:text="@string/onboarding_start"
             android:visibility="gone"
             app:backgroundTint="@color/medical_primary" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
