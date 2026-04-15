@@ -47,15 +47,15 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-        // Xử lý khi mở app từ thông báo → chuyển sang tab Lịch sử
-        String openTab = getIntent().getStringExtra("OPEN_TAB");
+        // Xử lý khi mở app từ thông báo → chuyển sang tab Lịch sử,
+        String openTab = getIntent().getStringExtra("OPEN_TAB");// lấy yêu cầu để khởi động Activity
         if ("history".equals(openTab)) {
             navController.navigate(R.id.historyFragment);
             bottomNav.setSelectedItemId(R.id.nav_history);
         }
     }
 
-    // Xử lý khi app đang chạy mà nhận intent mới từ thông báo
+    // Xử lý khi app đang chạy mà nhận intent mới từ thông báo, xử lý chạy nền
     @Override
     protected void onNewIntent(android.content.Intent intent) {
         super.onNewIntent(intent);
@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
         String openTab = intent.getStringExtra("OPEN_TAB");
         if ("history".equals(openTab)) {
-            navController.navigate(R.id.historyFragment);
-            bottomNav.setSelectedItemId(R.id.nav_history);
+            navController.navigate(R.id.historyFragment);//chuyển sang tab lịch sử
+            bottomNav.setSelectedItemId(R.id.nav_history);//highlight tab lịch sử
         }
     }
 }
