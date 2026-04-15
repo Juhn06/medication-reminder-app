@@ -69,7 +69,7 @@ public class MedicineReceiver extends BroadcastReceiver {
 
             createNotificationChannel(context);
 
-            // Bấm vào thông báo → mở app vào tab Lịch sử + truyền thông tin thuốc
+
             Intent mainIntent = new Intent(context, MainActivity.class);
             mainIntent.putExtra("OPEN_TAB", "history");
             mainIntent.putExtra("SCHEDULE_ID", scheduleId);
@@ -79,7 +79,7 @@ public class MedicineReceiver extends BroadcastReceiver {
                     context, scheduleId, mainIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-            // Nút "Đã uống" → chỉ cập nhật DB, không mở app
+
             Intent takenIntent = new Intent(context, MedicineReceiver.class);
             takenIntent.setAction(ACTION_TAKEN);
             takenIntent.putExtra("SCHEDULE_ID", scheduleId);
@@ -88,7 +88,7 @@ public class MedicineReceiver extends BroadcastReceiver {
                     context, scheduleId + 1000, takenIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-            // Nút "Nhắc lại" → chỉ snooze, không mở app
+
             Intent snoozeIntent = new Intent(context, MedicineReceiver.class);
             snoozeIntent.setAction(ACTION_SNOOZE);
             snoozeIntent.putExtra("SCHEDULE_ID", scheduleId);
@@ -127,13 +127,13 @@ public class MedicineReceiver extends BroadcastReceiver {
             String today = DateUtils.toDateString(System.currentTimeMillis());
             long now = System.currentTimeMillis();
 
-            // Kiểm tra đã có log chưa
+
             HistoryLog existing = db.historyDao().getByScheduleAndDate(scheduleId, today);
             if (existing != null) {
-                // Cập nhật log cũ thành TAKEN
+
                 db.historyDao().updateStatus(existing.id, HistoryLog.STATUS_TAKEN, now);
             } else {
-                // Tạo log mới
+
                 Medicine medicine = db.medicineDao().getByIdSync(medicineId);
                 if (medicine != null) {
                     HistoryLog log = new HistoryLog(
@@ -157,10 +157,10 @@ public class MedicineReceiver extends BroadcastReceiver {
             String today = DateUtils.toDateString(System.currentTimeMillis());
             long now = System.currentTimeMillis();
 
-            // Kiểm tra đã có log chưa
+
             HistoryLog existing = db.historyDao().getByScheduleAndDate(scheduleId, today);
             if (existing == null) {
-                // Tạo log mới SNOOZED với snooze_first_time = now
+
                 Medicine medicine = db.medicineDao().getByIdSync(medicineId);
                 if (medicine != null) {
                     HistoryLog log = new HistoryLog(
@@ -171,12 +171,12 @@ public class MedicineReceiver extends BroadcastReceiver {
                     db.historyDao().insert(log);
                 }
             } else if (!existing.isTaken()) {
-                // Cập nhật status SNOOZED, giữ snooze_first_time đầu tiên
+
                 db.historyDao().updateStatus(existing.id, HistoryLog.STATUS_SNOOZED, 0);
                 db.historyDao().setSnoozeFirstTime(existing.id, now);
             }
 
-            // Đặt alarm nhắc lại sau 10 phút
+
             long snoozeTime = now + 10 * 60 * 1000;
             android.app.AlarmManager alarmManager = (android.app.AlarmManager)
                     context.getSystemService(Context.ALARM_SERVICE);
@@ -202,7 +202,7 @@ public class MedicineReceiver extends BroadcastReceiver {
                         android.app.AlarmManager.RTC_WAKEUP, snoozeTime, pendingIntent);
             }
 
-            // Đặt alarm check MISSED sau 2 tiếng (chỉ lần snooze đầu tiên)
+
             if (existing == null || existing.snoozeFirstTime == 0) {
                 scheduleMissedCheck(context, scheduleId, medicineId, now);
             }
