@@ -38,19 +38,18 @@ public class MedicineListFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(MedicineViewModel.class);
 
-        // Setup RecyclerView
+
         adapter = new MedicineAdapter();
         binding.recyclerMedicines.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerMedicines.setAdapter(adapter);
 
-        // Observe danh sách thuốc
         viewModel.getAllMedicines().observe(getViewLifecycleOwner(), medicines -> {
             adapter.submitList(medicines);
             binding.tvEmpty.setVisibility(medicines.isEmpty() ? View.VISIBLE : View.GONE);
             binding.recyclerMedicines.setVisibility(medicines.isEmpty() ? View.GONE : View.VISIBLE);
         });
 
-        // Click vào item -> sang màn detail
+
         adapter.setOnItemClickListener(medicine -> {
             Bundle args = new Bundle();
             args.putInt("medicine_id", medicine.id);
@@ -59,7 +58,6 @@ public class MedicineListFragment extends Fragment {
                     .navigate(R.id.action_list_to_detail, args);
         });
 
-        // FAB -> sang màn thêm thuốc
         binding.fabAddMedicine.setOnClickListener(v ->
                 Navigation.findNavController(v)
                         .navigate(R.id.action_list_to_add)

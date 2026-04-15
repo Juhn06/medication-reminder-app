@@ -26,12 +26,12 @@ public class HistoryRepository {
         this.executor = Executors.newSingleThreadExecutor();
     }
 
-    // TV2 dùng: insert log mới
+
     public void insertLog(HistoryLog log) {
         executor.execute(() -> historyDao.insert(log));
     }
 
-    // TV2 dùng: đánh dấu đã uống
+
     public void markTaken(int scheduleId, String date) {
         executor.execute(() -> {
             long now = System.currentTimeMillis();
@@ -42,7 +42,6 @@ public class HistoryRepository {
         });
     }
 
-    // TV2 dùng: cập nhật status
     public void updateStatus(int logId, String status) {
         executor.execute(() -> {
             long takenTime = HistoryLog.STATUS_TAKEN.equals(status)
@@ -51,7 +50,7 @@ public class HistoryRepository {
         });
     }
 
-    // TV3 dùng: lịch sử
+
     public LiveData<List<HistoryLog>> getToday() {
         return historyDao.getToday(DateUtils.today());
     }
@@ -68,7 +67,7 @@ public class HistoryRepository {
         return historyDao.getByMedicine(medicineId);
     }
 
-    // TV3 dùng: thống kê
+
     public LiveData<Integer> getTakenCount(String fromDate, String toDate) {
         return historyDao.getTakenCount(fromDate, toDate);
     }
@@ -77,7 +76,7 @@ public class HistoryRepository {
         return historyDao.getTotalCount(fromDate, toDate);
     }
 
-    // Tính % tuân thủ - chạy trong background thread
+
     public float getComplianceRateSync(String fromDate, String toDate) {
         int total = historyDao.getTotalCountSync(fromDate, toDate);
         int taken = historyDao.getTakenCountSync(fromDate, toDate);

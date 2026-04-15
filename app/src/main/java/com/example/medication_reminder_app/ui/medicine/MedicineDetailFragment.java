@@ -113,10 +113,10 @@ public class MedicineDetailFragment extends Fragment {
         viewModel.getSchedulesForMedicine(medicineId).observe(
                 getViewLifecycleOwner(), scheduleAdapter::submitList);
 
-        // Nút đổi ảnh
+
         binding.btnChangeImage.setOnClickListener(v -> showImagePickerDialog());
 
-        // Nút sửa thuốc
+
         binding.btnEdit.setOnClickListener(v -> {
             Bundle args = new Bundle();
             args.putInt("medicine_id", medicineId);
@@ -124,10 +124,10 @@ public class MedicineDetailFragment extends Fragment {
                     .navigate(R.id.action_detail_to_edit, args);
         });
 
-        // Nút xóa thuốc
+
         binding.btnDelete.setOnClickListener(v -> confirmDelete());
 
-        // Nút back
+
         binding.btnBack.setOnClickListener(v ->
                 Navigation.findNavController(view).navigateUp());
     }

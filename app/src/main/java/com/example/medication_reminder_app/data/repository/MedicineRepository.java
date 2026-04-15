@@ -35,7 +35,6 @@ public class MedicineRepository {
         this.executor = Executors.newFixedThreadPool(2);
     }
 
-    // Thêm thuốc + lịch — trả về schedules với id thật
     public void addMedicineWithSchedules(Medicine medicine, List<Schedule> schedules,
                                          OnSaveCallback callback) {
         executor.execute(() -> {
@@ -54,7 +53,7 @@ public class MedicineRepository {
         });
     }
 
-    // Sửa thuốc — xóa lịch cũ, thêm lịch mới với id thật
+
     public void updateMedicineWithSchedules(Medicine medicine, List<Schedule> newSchedules,
                                             OnSaveCallback callback) {
         executor.execute(() -> {
@@ -74,7 +73,7 @@ public class MedicineRepository {
         });
     }
 
-    // Xóa mềm + cancel tất cả alarm
+
     public void deactivateMedicine(Context context, int medicineId) {
         executor.execute(() -> {
             List<Schedule> schedules = scheduleDao.getByMedicineIdSync(medicineId);
@@ -90,7 +89,7 @@ public class MedicineRepository {
         executor.execute(() -> medicineDao.updateImagePath(medicineId, imagePath));
     }
 
-    // LiveData cho UI
+
     public LiveData<List<Medicine>> getAllActiveMedicines() {
         return medicineDao.getAllActive();
     }
@@ -103,7 +102,7 @@ public class MedicineRepository {
         return scheduleDao.getByMedicineId(medicineId);
     }
 
-    // Sync cho background service
+
     public Medicine getMedicineByIdSync(int id) {
         return medicineDao.getByIdSync(id);
     }
